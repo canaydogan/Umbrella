@@ -10,7 +10,7 @@ import net.canaydogan.umbrella.request.HttpRequest;
 
 import org.junit.Test;
 
-public class SegmentRouterTest {
+public class SegmentRouteTest {
 	
 	private Object[][] routes = {
 		{
@@ -85,7 +85,7 @@ public class SegmentRouterTest {
 	public void match() {
 		
 		for (Object[] route : routes) {
-			Router router = new SegmentRouter((String) route[0]);
+			Route router = new SegmentRoute((String) route[0]);
 			HttpRequest request = buildRequest((String) route[1]);
 			RouteMatch match = router.match(request);
 			

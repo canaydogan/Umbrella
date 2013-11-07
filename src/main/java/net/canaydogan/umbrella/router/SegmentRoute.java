@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 
 import net.canaydogan.umbrella.request.HttpRequest;
 
-public class SegmentRouter implements Router {
+public class SegmentRoute implements Route {
 	
 	protected String regex;
 	protected Set<String> parts;
 	
-	public SegmentRouter(String route) {
+	public SegmentRoute(String route) {
 		regex = buildRegex(route);
 		parts = parseRouteDefinition(route);
 	}

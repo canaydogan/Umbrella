@@ -1,0 +1,49 @@
+package net.canaydogan.umbrella.handler;
+
+import io.netty.handler.codec.http.HttpResponse;
+import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.router.RouteMatch;
+
+public class HttpHandlerContext {
+
+	protected HttpRequest request;
+	
+	protected HttpResponse response;
+	
+	protected RouteMatch routeMatch;
+	
+	public HttpHandlerContext(HttpRequest request, HttpResponse response) {
+		setRequest(request);
+		setResponse(response);
+	}
+	
+	public HttpHandlerContext(HttpRequest request, HttpResponse response, RouteMatch routeMatch) {
+		this(request, response);
+		setRouteMatch(routeMatch);
+	}
+
+	public HttpRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpRequest request) {
+		this.request = request;
+	}
+
+	public HttpResponse getResponse() {
+		return response;
+	}
+
+	public void setResponse(HttpResponse response) {
+		this.response = response;
+	}
+
+	public RouteMatch getRouteMatch() {
+		return routeMatch;
+	}
+
+	public void setRouteMatch(RouteMatch routeMatch) {
+		this.routeMatch = routeMatch;
+	}	
+	
+}

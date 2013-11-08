@@ -1,46 +1,38 @@
 package net.canaydogan.umbrella.handler.condition;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
 import net.canaydogan.umbrella.router.Route;
 import net.canaydogan.umbrella.router.RouteMatch;
-import static org.mockito.Mockito.*;
 
 public class RouteConditionTest extends AbstractCondition {
 
 	@Override
-	public Condition newValidCondition() {
+	public Map<Condition, HttpHandlerContext> newValidData() {
+		Map<Condition, HttpHandlerContext> data = new HashMap<>();		
 		Route route = mock(Route.class);
-		when(route.match(null)).thenReturn(new RouteMatch());
+		when(route.match(null)).thenReturn(new RouteMatch());		
+		data.put(new RouteCondition(route), new HttpHandlerContext(null, null));
 		
-		return new RouteCondition(route);
+		return data;
 	}
-	
+
 	@Override
-	public Condition newInvalidCondition() {
+	public Map<Condition, HttpHandlerContext> newInvalidData() {
+		Map<Condition, HttpHandlerContext> data = new HashMap<>();		
 		Route route = mock(Route.class);
 		when(route.match(null)).thenReturn(null);
 		
-		return new RouteCondition(route);
+		data.put(new RouteCondition(route), new HttpHandlerContext(null, null));
+		
+		return data;
 	}
 
-	@Override
-	public Collection<HttpHandlerContext> getValidCollection() {
-		Set<HttpHandlerContext> collection = new HashSet<>();
-		collection.add(new HttpHandlerContext(null, null));		
-		
-		return collection;
-	}
-
-	@Override
-	public Collection<HttpHandlerContext> getInvalidCollection() {
-		Set<HttpHandlerContext> collection = new HashSet<>();
-		collection.add(new HttpHandlerContext(null, null));		
-		
-		return collection;
-	}	
+	
 		
 }

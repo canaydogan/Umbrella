@@ -3,6 +3,7 @@ package net.canaydogan.umbrella.handler.condition;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
 
@@ -10,28 +11,24 @@ import org.junit.Test;
 
 abstract public class AbstractCondition {
 
-	abstract public Condition newValidCondition();
-	abstract public Condition newInvalidCondition();
-	abstract public Collection<HttpHandlerContext> getValidCollection();
-	abstract public Collection<HttpHandlerContext> getInvalidCollection();
+	abstract public Map<Condition, HttpHandlerContext> newValidData();
+	abstract public Map<Condition, HttpHandlerContext> newInvalidData();
 	
 	@Test
 	public void testIsValidForSuccess() {
-		Condition condition = newValidCondition();
-		Collection<HttpHandlerContext> collection = getValidCollection();
+		Map<Condition, HttpHandlerContext> data = newValidData();
 		
-		for (HttpHandlerContext context : collection) {
-			assertTrue(condition.isValid(context));
+		for (Condition condition : data.keySet()) {
+			assertTrue(condition.isValid(data.get(condition)));
 		}
 	}
 	
 	@Test
 	public void testIsValidForUnsuccess() {
-		Condition condition = newInvalidCondition();
-		Collection<HttpHandlerContext> collection = getInvalidCollection();
+		Map<Condition, HttpHandlerContext> data = newInvalidData();
 		
-		for (HttpHandlerContext context : collection) {
-			assertFalse(condition.isValid(context));
+		for (Condition condition : data.keySet()) {
+			assertFalse(condition.isValid(data.get(condition)));
 		}
 	}
 		

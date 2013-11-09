@@ -107,6 +107,23 @@ public class SimpleHttpHandlerStackTest {
 		stack.handleHttpRequest(context);		
 		verify(handler1, times(1)).handleHttpRequest(context);
 		verify(handler2, times(0)).handleHttpRequest(context);
-	}	
+	}
+	
+	@Test
+	public void testHandleHttpRequestForException() throws Exception {
+		//HttpContext
+		HttpHandlerContext context = new HttpHandlerContext(null, null);		
+		
+		//Exception
+		Exception exception = new Exception();
+		//Handlers
+		HttpHandler handler = mock(HttpHandler.class);
+		when(handler.handleHttpRequest(context)).thenThrow(exception);
+							
+		stack.addHttpHandler(handler, newCondition(context, true));
+		
+		stack.handleHttpRequest(context);		
+		assertSame(exception, context.getException());
+	}
 	
 }

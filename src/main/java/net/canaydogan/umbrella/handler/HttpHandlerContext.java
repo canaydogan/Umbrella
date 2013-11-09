@@ -12,6 +12,8 @@ public class HttpHandlerContext {
 	
 	protected RouteMatch routeMatch;
 	
+	protected Exception exception;
+	
 	public HttpHandlerContext(HttpRequest request, HttpResponse response) {
 		setRequest(request);
 		setResponse(response);
@@ -44,6 +46,18 @@ public class HttpHandlerContext {
 
 	public void setRouteMatch(RouteMatch routeMatch) {
 		this.routeMatch = routeMatch;
+	}
+
+	public void setException(Exception exception) {
+		this.exception = exception;
+	}
+
+	public Exception getException() {
+		return exception;
+	}
+
+	public boolean hasException() {
+		return !(null == exception);
 	}	
 	
 }

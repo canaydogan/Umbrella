@@ -16,9 +16,13 @@ public class SimpleHttpHandlerStack implements HttpHandlerStack {
 		
 		for (Entry<HttpHandler, Condition> entry : stack.entrySet()) {
 			if (true == entry.getValue().isValid(context)) {
-				if (entry.getKey().handleHttpRequest(context)) {
-					return true;
-				}
+				try {
+					if (entry.getKey().handleHttpRequest(context)) {
+						return true;
+					}	
+				} catch (Exception e) {
+					context.setException(e);
+				}				
 			}
 		}
 		

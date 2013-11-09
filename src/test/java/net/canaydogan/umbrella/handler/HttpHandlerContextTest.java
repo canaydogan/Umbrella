@@ -26,14 +26,25 @@ public class HttpHandlerContextTest {
 		HttpRequest request = mock(HttpRequest.class);
 		HttpResponse response = mock(HttpResponse.class);
 		RouteMatch routeMatch = new RouteMatch();
+		Exception exception = new Exception();
 		
 		context.setRequest(request);
 		context.setResponse(response);
 		context.setRouteMatch(routeMatch);
+		context.setException(exception);
 		
 		assertEquals(request, context.getRequest());
 		assertEquals(response, context.getResponse());
 		assertEquals(routeMatch, context.getRouteMatch());
+		assertSame(exception, context.getException());
+	}
+	
+	@Test
+	public void testHasException() {
+		assertFalse(context.hasException());
+		
+		context.setException(new Exception());
+		assertTrue(context.hasException());
 	}
 	
 }

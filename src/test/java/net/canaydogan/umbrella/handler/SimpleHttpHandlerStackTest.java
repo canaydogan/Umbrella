@@ -3,7 +3,6 @@ package net.canaydogan.umbrella.handler;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import net.canaydogan.umbrella.handler.condition.Condition;
@@ -20,24 +19,23 @@ public class SimpleHttpHandlerStackTest {
 		stack = new SimpleHttpHandlerStack();
 	}
 	
-	@Test
-	public void testAddAndRemoteHttpHandler() throws Exception {
-		Field field = stack.getClass().getDeclaredField("stack");		
-		Map<HttpHandler, Condition> data = (Map<HttpHandler, Condition>) field.get(stack);		
-		
-		stack.addHttpHandler(null, null);		
-		assertEquals(1, data.size());	
-		
-		stack.removeHttpHandler(null);
-		assertEquals(0, data.size());		
-	}
-	
 	protected Condition newCondition(HttpHandlerContext context, boolean status) {
 		Condition condition = mock(Condition.class);
 		when(condition.isValid(context)).thenReturn(status);
 		
 		return condition;
 	}
+	
+	@Test
+	public void testAddAndRemoteHttpHandler() throws Exception {
+		Map<HttpHandler, Condition> data = (Map<HttpHandler, Condition>) stack.getClass().getDeclaredField("stack").get(stack);		
+		
+		stack.addHttpHandler(null, null);		
+		assertEquals(1, data.size());	
+		
+		stack.removeHttpHandler(null);
+		assertEquals(0, data.size());		
+	}	
 	
 	@Test
 	public void testHandlerHttpRequestWithOneValidHandler() throws Exception {

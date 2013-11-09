@@ -33,6 +33,4 @@ public class RouteConditionTest extends AbstractCondition {
 		return data;
 	}
 
-	
-		
 }

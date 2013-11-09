@@ -82,8 +82,7 @@ public class SegmentRouteTest {
 	
 	
 	@Test
-	public void match() {
-		
+	public void testMatch() {
 		for (Object[] route : routes) {
 			Route router = new SegmentRoute((String) route[0]);
 			HttpRequest request = buildRequest((String) route[1]);
@@ -99,10 +98,7 @@ public class SegmentRouteTest {
 					assertEquals(params.get(name), match.getParam(name));
 				}
 			}
-			
 		}
-		
-	}		
-	
+	}			
 	
 }

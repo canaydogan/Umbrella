@@ -14,14 +14,14 @@ public class RouteMatchTest {
 	}
 	
 	@Test
-	public void setAndGetParam() {
+	public void testSetAndGetParam() {
 		routeMatch.setParam("name", "value");
 		
 		assertEquals("value", routeMatch.getParam("name"));
 	}
 	
 	@Test
-	public void getParamForNull() {
+	public void testGetParamForNull() {
 		assertNull(routeMatch.getParam("name"));
 	}
 

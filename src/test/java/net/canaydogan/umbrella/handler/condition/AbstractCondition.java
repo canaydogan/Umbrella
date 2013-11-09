@@ -2,7 +2,6 @@ package net.canaydogan.umbrella.handler.condition;
 
 import static org.junit.Assert.*;
 
-import java.util.Collection;
 import java.util.Map;
 
 import net.canaydogan.umbrella.handler.HttpHandlerContext;

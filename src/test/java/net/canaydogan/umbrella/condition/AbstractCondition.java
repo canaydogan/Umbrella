@@ -1,9 +1,10 @@
-package net.canaydogan.umbrella.handler.condition;
+package net.canaydogan.umbrella.condition;
 
 import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import net.canaydogan.umbrella.condition.Condition;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
 
 import org.junit.Test;

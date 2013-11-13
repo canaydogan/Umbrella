@@ -1,6 +1,6 @@
 package net.canaydogan.umbrella.handler;
 
-import net.canaydogan.umbrella.handler.condition.Condition;
+import net.canaydogan.umbrella.condition.Condition;
 
 public interface HttpHandlerStack extends HttpHandler {
 	

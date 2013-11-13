@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.handler.condition;
+package net.canaydogan.umbrella.condition;
 
 public interface ConditionStack extends Condition {
 

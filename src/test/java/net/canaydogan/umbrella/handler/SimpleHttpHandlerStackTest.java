@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Map;
 
-import net.canaydogan.umbrella.handler.condition.Condition;
+import net.canaydogan.umbrella.condition.Condition;
 
 import org.junit.Before;
 import org.junit.Test;

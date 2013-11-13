@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.handler.condition;
+package net.canaydogan.umbrella.condition;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.canaydogan.umbrella.condition.Condition;
+import net.canaydogan.umbrella.condition.ConditionStack;
+import net.canaydogan.umbrella.condition.SimpleConditionStack;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
 
 import org.junit.Test;

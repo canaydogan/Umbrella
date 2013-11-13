@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.handler.condition;
+package net.canaydogan.umbrella.condition;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.canaydogan.umbrella.condition.Condition;
+import net.canaydogan.umbrella.condition.RouteCondition;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
 import net.canaydogan.umbrella.router.Route;
 import net.canaydogan.umbrella.router.RouteMatch;

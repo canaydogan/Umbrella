@@ -1,7 +1,7 @@
 package net.canaydogan.umbrella.handler;
 
-import io.netty.handler.codec.http.HttpResponse;
 import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.response.HttpResponse;
 import net.canaydogan.umbrella.router.RouteMatch;
 
 public class HttpHandlerContext {

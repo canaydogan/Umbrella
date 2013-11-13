@@ -3,7 +3,7 @@ package net.canaydogan.umbrella.request;
 public interface HttpRequest {
 	
 	public enum Method {
-		GET, POST, PUT, DELETE
+		GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS
 	}
 	
 	public String getUri();

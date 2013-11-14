@@ -12,9 +12,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class ConditionalResourceStackTest {
+public class ConditionalResourceStackTest extends AbstractResourceStack {
 
-	private ConditionalResourceStack stack;
+	ConditionalResourceStack stack;
 	private HttpHandlerContext context;
 	
 	@Before
@@ -27,24 +27,6 @@ public class ConditionalResourceStackTest {
 	@Test
 	public void testDefaultValues() {
 		assertEquals("controller", stack.getIdentifierName());
-	}
-	
-	public Resource newResource(HttpHandlerContext context, String output) throws Exception {
-		Resource resource = mock(Resource.class);
-		when(resource.get(context)).thenReturn("get " + output);
-		when(resource.getList(context)).thenReturn("get list " + output);
-		when(resource.create(context)).thenReturn("create " + output);
-		when(resource.update(context)).thenReturn("update " + output);
-		when(resource.delete(context)).thenReturn("delete " + output);
-		
-		return resource;
-	}
-	
-	@Test
-	public void testSetterAndGetter() {
-		stack.setIdentifierName("new name");
-		
-		assertEquals("new name", stack.getIdentifierName());
 	}
 	
 	@Test
@@ -181,6 +163,5 @@ public class ConditionalResourceStackTest {
 		context.getRouteMatch().setParam("controlller", "undefined");
 		stack.delete(context);
 	}
-	
 	
 }

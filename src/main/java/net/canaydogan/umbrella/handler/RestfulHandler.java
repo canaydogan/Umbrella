@@ -1,9 +1,9 @@
 package net.canaydogan.umbrella.handler;
 
+import net.canaydogan.umbrella.HttpRequest;
+import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
-import net.canaydogan.umbrella.request.HttpRequest;
-import net.canaydogan.umbrella.response.HttpResponse;
 import net.canaydogan.umbrella.restful.Resource;
 import net.canaydogan.umbrella.router.Route;
 

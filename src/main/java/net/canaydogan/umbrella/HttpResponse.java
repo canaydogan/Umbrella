@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.response;
+package net.canaydogan.umbrella;
 
 public interface HttpResponse {
 

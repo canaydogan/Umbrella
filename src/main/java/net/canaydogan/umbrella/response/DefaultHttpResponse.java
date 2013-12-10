@@ -1,5 +1,7 @@
 package net.canaydogan.umbrella.response;
 
+import net.canaydogan.umbrella.HttpResponse;
+
 
 public class DefaultHttpResponse implements HttpResponse {
 

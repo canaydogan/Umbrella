@@ -1,6 +1,6 @@
 package net.canaydogan.umbrella.router;
 
-import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.HttpRequest;
 
 public interface Route {
 

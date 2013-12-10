@@ -3,7 +3,7 @@ package net.canaydogan.umbrella.router;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.HttpRequest;
 
 public class SimpleRouteStack implements RouteStack {
 

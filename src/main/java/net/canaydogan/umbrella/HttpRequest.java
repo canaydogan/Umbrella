@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.request;
+package net.canaydogan.umbrella;
 
 public interface HttpRequest {
 	
@@ -9,5 +9,11 @@ public interface HttpRequest {
 	public String getUri();
 	
 	public Method getMethod();
-
+	
+	public HttpRequest setContent(String content);
+	
+	public String getContent();
+	
+	public HttpHeaderCollection getHeaderCollection();
+	
 }

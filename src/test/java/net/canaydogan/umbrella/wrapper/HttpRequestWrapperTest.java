@@ -1,6 +1,8 @@
-package net.canaydogan.umbrella.request;
+package net.canaydogan.umbrella.wrapper;
 
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
+import net.canaydogan.umbrella.HttpRequest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +69,16 @@ public class HttpRequestWrapperTest {
 		//NULL
 		when(nettyRequest.getMethod()).thenReturn(null);		
 		assertEquals(null, request.getMethod());
+	}
+	
+	@Test
+	public void testGetHeaderCollection() {		
+		HttpHeaders httpHeaders = mock(HttpHeaders.class);
+		when(nettyRequest.headers()).thenReturn(httpHeaders);
+		when(httpHeaders.get("name")).thenReturn("value");
+		HttpRequest request = new HttpRequestWrapper(nettyRequest);
+		
+		assertEquals("value", request.getHeaderCollection().get("name"));
 	}
 	
 }

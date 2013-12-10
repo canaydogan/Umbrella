@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.HttpRequest;
 
 import org.junit.Test;
 

@@ -2,11 +2,11 @@ package net.canaydogan.umbrella.handler;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import net.canaydogan.umbrella.HttpRequest;
+import net.canaydogan.umbrella.HttpResponse;
+import net.canaydogan.umbrella.HttpRequest.Method;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
-import net.canaydogan.umbrella.request.HttpRequest;
-import net.canaydogan.umbrella.request.HttpRequest.Method;
-import net.canaydogan.umbrella.response.HttpResponse;
 import net.canaydogan.umbrella.restful.Resource;
 import net.canaydogan.umbrella.router.Route;
 import net.canaydogan.umbrella.router.RouteMatch;

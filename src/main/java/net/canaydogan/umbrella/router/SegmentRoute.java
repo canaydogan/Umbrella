@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.canaydogan.umbrella.request.HttpRequest;
+import net.canaydogan.umbrella.HttpRequest;
 
 public class SegmentRoute implements Route {
 	

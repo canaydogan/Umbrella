@@ -1,7 +1,7 @@
 package net.canaydogan.umbrella.handler;
 
-import net.canaydogan.umbrella.request.HttpRequest;
-import net.canaydogan.umbrella.response.HttpResponse;
+import net.canaydogan.umbrella.HttpRequest;
+import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.router.RouteMatch;
 
 import org.junit.Before;

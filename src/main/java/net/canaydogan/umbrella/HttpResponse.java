@@ -6,4 +6,8 @@ public interface HttpResponse {
 	
 	public Object getContent();
 	
+	public HttpHeaderCollection getHeaderCollection();
+	
+	public boolean finish();
+	
 }

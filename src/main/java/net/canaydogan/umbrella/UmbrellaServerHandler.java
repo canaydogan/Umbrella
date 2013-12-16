@@ -7,15 +7,12 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpHeaders.Names.COOKIE;
 import static io.netty.handler.codec.http.HttpHeaders.Names.SET_COOKIE;
-import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.Cookie;
 import io.netty.handler.codec.http.CookieDecoder;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -28,19 +25,16 @@ import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.ServerCookieEncoder;
 import io.netty.util.CharsetUtil;
 
-import java.net.HttpCookie;
 import java.util.Set;
 
 import net.canaydogan.umbrella.handler.HttpHandler;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
-import net.canaydogan.umbrella.response.DefaultHttpResponse;
+import net.canaydogan.umbrella.wrapper.FullHttpResponseWrapper;
 import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
 
 class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
 
     private HttpRequest request;
-    /** Buffer that stores the response content */
-    private final StringBuilder buf = new StringBuilder();
     
     protected HttpHandlerContext context;
     
@@ -55,26 +49,13 @@ class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
         ctx.flush();
     }
 
-    private static void appendDecoderResult(StringBuilder buf, HttpObject o) {
-        DecoderResult result = o.getDecoderResult();
-        if (result.isSuccess()) {
-            return;
-        }
-
-        buf.append(".. WITH DECODER FAILURE: ");
-        buf.append(result.cause());
-        buf.append("\r\n");
-    }
-
     private boolean writeResponse(HttpObject currentObj, ChannelHandlerContext ctx) {
         // Decide whether to close the connection or not.
         boolean keepAlive = isKeepAlive(request);
         // Build the response object.
-        FullHttpResponse response = new DefaultFullHttpResponse(
-                HTTP_1_1, currentObj.getDecoderResult().isSuccess()? OK : BAD_REQUEST,
-                Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
+        FullHttpResponse response = ((FullHttpResponseWrapper) context.getResponse()).getNettyResponse();
 
-        response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
+        response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");        
 
         if (keepAlive) {
             // Add 'Content-Length' header only for a keep-alive connection.
@@ -116,12 +97,11 @@ class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
         ctx.close();
     }
     
-    protected HttpHandlerContext buildHttpHandlerContext(HttpRequest nettyRequest) {
-    	net.canaydogan.umbrella.HttpRequest request = new HttpRequestWrapper(nettyRequest);
-    	HttpResponse response = new DefaultHttpResponse();
-    	HttpHandlerContext context = new HttpHandlerContext(request, response);
-    	
-    	return context;
+    protected HttpHandlerContext buildHttpHandlerContext(HttpRequest nettyRequest) {    	
+    	return new HttpHandlerContext(
+			new HttpRequestWrapper(nettyRequest), 
+			new FullHttpResponseWrapper(new DefaultFullHttpResponse(HTTP_1_1, OK))
+		);
     }
 
 	@Override
@@ -134,66 +114,20 @@ class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
                 send100Continue(ctx);
             }
 
-            buf.setLength(0);                       
-
-            /*
-            buf.append("VERSION: ").append(request.getProtocolVersion()).append("\r\n");
-            buf.append("HOSTNAME: ").append(getHost(request, "unknown")).append("\r\n");
-            buf.append("REQUEST_URI: ").append(request.getUri()).append("\r\n\r\n");
-
-            HttpHeaders headers = request.headers();
-            if (!headers.isEmpty()) {
-                for (Map.Entry<String, String> h: headers) {
-                    String key = h.getKey();
-                    String value = h.getValue();
-                    buf.append("HEADER: ").append(key).append(" = ").append(value).append("\r\n");
-                }
-                buf.append("\r\n");
-            }
-
-            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.getUri());
-            Map<String, List<String>> params = queryStringDecoder.parameters();
-            if (!params.isEmpty()) {
-                for (Entry<String, List<String>> p: params.entrySet()) {
-                    String key = p.getKey();
-                    List<String> vals = p.getValue();
-                    for (String val : vals) {
-                        buf.append("PARAM: ").append(key).append(" = ").append(val).append("\r\n");
-                    }
-                }
-                buf.append("\r\n");
-            }
-             */
-            //appendDecoderResult(buf, request);
         }
 
         if (msg instanceof HttpContent) {
             HttpContent httpContent = (HttpContent) msg;
-
             ByteBuf content = httpContent.content();
+            
             if (content.isReadable()) {
             	context.getRequest().setContent(content.toString(CharsetUtil.UTF_8));
-                //appendDecoderResult(buf, request);
-            }
-
-            httpHandler.handleHttpRequest(context);
-            buf.append(context.getResponse().getContent());
+            }            
             
             if (msg instanceof LastHttpContent) {
-                /*buf.append("END OF CONTENT\r\n");*/
-
-                LastHttpContent trailer = (LastHttpContent) msg;
-                if (!trailer.trailingHeaders().isEmpty()) {
-                    buf.append("\r\n");
-                    for (String name: trailer.trailingHeaders().names()) {
-                        for (String value: trailer.trailingHeaders().getAll(name)) {
-                            buf.append("TRAILING HEADER: ");
-                            buf.append(name).append(" = ").append(value).append("\r\n");
-                        }
-                    }
-                    buf.append("\r\n");
-                }
-
+                LastHttpContent trailer = (LastHttpContent) msg;                
+                httpHandler.handleHttpRequest(context);
+                context.getResponse().finish();
                 writeResponse(trailer, ctx);
             }
         }		

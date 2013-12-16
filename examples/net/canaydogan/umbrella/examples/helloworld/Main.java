@@ -13,6 +13,7 @@ class Main {
 			public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
 				System.out.println(context.getRequest().getHeaderCollection().get("Accept"));
 				context.getResponse().setContent("Hello world");
+				context.getResponse().getHeaderCollection().set("HeaderName", "Value");
 				return true;
 			}
 		});

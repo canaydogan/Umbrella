@@ -19,7 +19,8 @@ public class HttpRequestWrapperTest {
 	@Before
 	public void setUp() {
 		nettyRequest = mock(io.netty.handler.codec.http.HttpRequest.class);
-		request = new HttpRequestWrapper(nettyRequest);
+		when(nettyRequest.getUri()).thenReturn("/?param1=value");
+		request = new HttpRequestWrapper(nettyRequest);		
 	}
 	
 	@Test
@@ -79,6 +80,13 @@ public class HttpRequestWrapperTest {
 		HttpRequest request = new HttpRequestWrapper(nettyRequest);
 		
 		assertEquals("value", request.getHeaderCollection().get("name"));
+	}
+	
+	@Test
+	public void testGetQuery() {		
+		HttpRequest request = new HttpRequestWrapper(nettyRequest);
+		
+		assertEquals("value", request.getQuery().getParam("param1"));
 	}
 	
 }

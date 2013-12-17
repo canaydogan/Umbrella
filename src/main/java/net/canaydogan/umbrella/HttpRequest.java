@@ -16,4 +16,6 @@ public interface HttpRequest {
 	
 	public HttpHeaderCollection getHeaderCollection();
 	
+	public HttpQuery getQuery();
+	
 }

@@ -1,6 +1,8 @@
 package net.canaydogan.umbrella.wrapper;
 
+import io.netty.handler.codec.http.QueryStringDecoder;
 import net.canaydogan.umbrella.HttpHeaderCollection;
+import net.canaydogan.umbrella.HttpQuery;
 import net.canaydogan.umbrella.HttpRequest;
 
 public class HttpRequestWrapper implements HttpRequest {
@@ -11,9 +13,12 @@ public class HttpRequestWrapper implements HttpRequest {
 	
 	protected HttpHeaderCollection headerCollection;
 	
+	protected HttpQuery query;
+	
 	public HttpRequestWrapper(io.netty.handler.codec.http.HttpRequest request) {
 		this.request = request;
 		this.headerCollection = new HttpHeadersWrapper(request.headers());
+		this.query = new QueryStringDecoderWrapper(new QueryStringDecoder(getUri()));
 	}
 
 	@Override
@@ -51,6 +56,11 @@ public class HttpRequestWrapper implements HttpRequest {
 	@Override
 	public HttpHeaderCollection getHeaderCollection() {
 		return headerCollection;
+	}
+
+	@Override
+	public HttpQuery getQuery() {
+		return query;
 	}
 
 }

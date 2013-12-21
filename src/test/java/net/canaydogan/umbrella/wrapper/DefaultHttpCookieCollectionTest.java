@@ -22,12 +22,12 @@ public class DefaultHttpCookieCollectionTest {
 	@Test
 	public void testAddAndGetAndRemoveCookie() {
 		HttpCookie cookie = new HttpCookie("name", "value");
-		collection.addCookie(cookie);
+		collection.add(cookie);
 		
-		assertEquals(cookie, collection.getCookie("name"));
+		assertEquals(cookie, collection.get("name"));
 		
-		assertTrue(collection.removeCookie(cookie));
-		assertNull(collection.getCookie("name"));
+		assertTrue(collection.remove(cookie));
+		assertNull(collection.get("name"));
 	}
 	
 	@Test
@@ -44,8 +44,8 @@ public class DefaultHttpCookieCollectionTest {
 	public void testConstructorWithStringCookie() {
 		HttpCookieCollection collection = new DefaultHttpCookieCollection("key1=value1;key2=value2");
 		
-		HttpCookie key1 = collection.getCookie("key1");
-		HttpCookie key2 = collection.getCookie("key2");
+		HttpCookie key1 = collection.get("key1");
+		HttpCookie key2 = collection.get("key2");
 		
 		assertEquals("key1", key1.getName());
 		assertEquals("value1", key1.getValue());
@@ -71,8 +71,8 @@ public class DefaultHttpCookieCollectionTest {
 		cookie2.setSecure(true);
 		cookie2.setVersion(1);
 		
-		collection.addCookie(cookie1);
-		collection.addCookie(cookie2);
+		collection.add(cookie1);
+		collection.add(cookie2);
 		
 		List<String> list = collection.toStringList();
 		

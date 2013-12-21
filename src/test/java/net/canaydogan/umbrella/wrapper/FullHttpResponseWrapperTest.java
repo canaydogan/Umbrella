@@ -70,8 +70,8 @@ public class FullHttpResponseWrapperTest {
 		
 		HttpCookie cookie1 = new HttpCookie("cookie1", "value1");
 		HttpCookie cookie2 = new HttpCookie("cookie2", "value2");
-		response.getCookieCollection().addCookie(cookie1);
-		response.getCookieCollection().addCookie(cookie2);		
+		response.getCookieCollection().add(cookie1);
+		response.getCookieCollection().add(cookie2);		
 		
 		assertTrue(response.finish());
 		

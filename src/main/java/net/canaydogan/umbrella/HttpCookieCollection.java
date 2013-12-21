@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface HttpCookieCollection {
 
-	public HttpCookie getCookie(String name);
+	public HttpCookie get(String name);
 	
-	public HttpCookieCollection addCookie(HttpCookie cookie);
+	public HttpCookieCollection add(HttpCookie cookie);
 	
-	public boolean removeCookie(HttpCookie cookie);
+	public boolean remove(HttpCookie cookie);
 	
 	public List<String> toStringList();
 	

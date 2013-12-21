@@ -24,7 +24,7 @@ public class DefaultHttpCookieCollection implements HttpCookieCollection {
 	}
 
 	@Override
-	public HttpCookie getCookie(String name) {
+	public HttpCookie get(String name) {
 		for (HttpCookie cookie : list) {
 			if (cookie.getName().equals(name)) {
 				return cookie;
@@ -35,13 +35,13 @@ public class DefaultHttpCookieCollection implements HttpCookieCollection {
 	}
 
 	@Override
-	public HttpCookieCollection addCookie(HttpCookie cookie) {
+	public HttpCookieCollection add(HttpCookie cookie) {
 		list.add(cookie);
 		return this;
 	}
 
 	@Override
-	public boolean removeCookie(HttpCookie cookie) {
+	public boolean remove(HttpCookie cookie) {
 		return list.remove(cookie);
 	}
 	

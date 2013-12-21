@@ -98,7 +98,7 @@ public class HttpRequestWrapperTest {
 		when(nettyRequest.headers()).thenReturn(httpHeaders);		
 		HttpRequest request = new HttpRequestWrapper(nettyRequest);
 		
-		assertEquals("value1", request.getCookieCollection().getCookie("cookie1").getValue());
+		assertEquals("value1", request.getCookieCollection().get("cookie1").getValue());
 	}
 	
 }

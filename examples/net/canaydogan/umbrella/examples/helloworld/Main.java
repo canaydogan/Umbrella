@@ -1,5 +1,7 @@
 package net.canaydogan.umbrella.examples.helloworld;
 
+import java.net.HttpCookie;
+
 import net.canaydogan.umbrella.UmbrellaServer;
 import net.canaydogan.umbrella.handler.HttpHandler;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
@@ -11,9 +13,17 @@ class Main {
 		server.setHttpHandler(new HttpHandler() {			
 			@Override
 			public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
-				System.out.println(context.getRequest().getHeaderCollection().get("Accept"));
-				context.getResponse().setContent("Hello world");
+				HttpCookie counter = context.getRequest().getCookieCollection().getCookie("counter");
+				if (null != counter) {
+					Integer value = (Integer.parseInt(counter.getValue()) + 1);
+					counter.setValue(value.toString());
+				} else {
+					counter = new HttpCookie("counter", "1");
+				}
+				System.out.println(context.getRequest().getHeaderCollection().get("Accept"));				
 				context.getResponse().getHeaderCollection().set("HeaderName", "Value");
+				context.getResponse().getCookieCollection().addCookie(counter);
+				context.getResponse().setContent("Hello world. Counter: " + counter.getValue());
 				return true;
 			}
 		});

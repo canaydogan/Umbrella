@@ -18,8 +18,12 @@ public class HttpRequestWrapperTest {
 	
 	@Before
 	public void setUp() {
-		nettyRequest = mock(io.netty.handler.codec.http.HttpRequest.class);
+		nettyRequest = mock(io.netty.handler.codec.http.HttpRequest.class);		
 		when(nettyRequest.getUri()).thenReturn("/?param1=value");
+		
+		HttpHeaders httpHeaders = mock(HttpHeaders.class);		
+		when(nettyRequest.headers()).thenReturn(httpHeaders);
+		
 		request = new HttpRequestWrapper(nettyRequest);		
 	}
 	
@@ -84,9 +88,17 @@ public class HttpRequestWrapperTest {
 	
 	@Test
 	public void testGetQuery() {		
+		assertEquals("value", request.getQuery().getParam("param1"));
+	}
+	
+	@Test
+	public void testGetCookieCollection() {		
+		HttpHeaders httpHeaders = mock(HttpHeaders.class);
+		when(httpHeaders.get(HttpHeaders.Names.COOKIE)).thenReturn("cookie1=value1");		
+		when(nettyRequest.headers()).thenReturn(httpHeaders);		
 		HttpRequest request = new HttpRequestWrapper(nettyRequest);
 		
-		assertEquals("value", request.getQuery().getParam("param1"));
+		assertEquals("value1", request.getCookieCollection().getCookie("cookie1").getValue());
 	}
 	
 }

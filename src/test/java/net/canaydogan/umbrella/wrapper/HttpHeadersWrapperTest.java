@@ -2,6 +2,10 @@ package net.canaydogan.umbrella.wrapper;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.netty.handler.codec.http.HttpHeaders;
 
 import org.junit.Test;
@@ -26,6 +30,25 @@ public class HttpHeadersWrapperTest {
 		when(httpHeaders.get("name")).thenReturn("value");
 		
 		assertEquals("value", collection.get("name"));
+	}
+	
+	@Test
+	public void testGetAll() {
+		List<String> list = new ArrayList<>();
+		HttpHeaders httpHeaders = mock(HttpHeaders.class);
+		HttpHeaderCollection collection = new HttpHeadersWrapper(httpHeaders);
+		when(httpHeaders.getAll("name")).thenReturn(list);
+		
+		assertEquals(list, collection.getAll("name"));
+	}
+	
+	@Test
+	public void testAdd() {
+		HttpHeaders httpHeaders = mock(HttpHeaders.class);
+		HttpHeaderCollection collection = new HttpHeadersWrapper(httpHeaders);
+		
+		collection.add("name", "value");
+		verify(httpHeaders, times(1)).add("name", "value");		
 	}
 		
 }

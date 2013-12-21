@@ -18,4 +18,6 @@ public interface HttpRequest {
 	
 	public HttpQuery getQuery();
 	
+	public HttpCookieCollection getCookieCollection();
+	
 }

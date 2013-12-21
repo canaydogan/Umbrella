@@ -10,4 +10,6 @@ public interface HttpResponse {
 	
 	public boolean finish();
 	
+	public HttpCookieCollection getCookieCollection();
+	
 }

@@ -1,6 +1,8 @@
 package net.canaydogan.umbrella.wrapper;
 
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import net.canaydogan.umbrella.HttpCookieCollection;
 import net.canaydogan.umbrella.HttpHeaderCollection;
 import net.canaydogan.umbrella.HttpQuery;
 import net.canaydogan.umbrella.HttpRequest;
@@ -15,10 +17,13 @@ public class HttpRequestWrapper implements HttpRequest {
 	
 	protected HttpQuery query;
 	
+	protected HttpCookieCollection cookieCollection;
+	
 	public HttpRequestWrapper(io.netty.handler.codec.http.HttpRequest request) {
 		this.request = request;
 		this.headerCollection = new HttpHeadersWrapper(request.headers());
 		this.query = new QueryStringDecoderWrapper(new QueryStringDecoder(getUri()));
+		this.cookieCollection = new DefaultHttpCookieCollection(getHeaderCollection().get(HttpHeaders.Names.COOKIE));
 	}
 
 	@Override
@@ -61,6 +66,11 @@ public class HttpRequestWrapper implements HttpRequest {
 	@Override
 	public HttpQuery getQuery() {
 		return query;
+	}
+
+	@Override
+	public HttpCookieCollection getCookieCollection() {
+		return cookieCollection;
 	}
 
 }

@@ -1,6 +1,7 @@
 package net.canaydogan.umbrella.wrapper;
 
 import java.util.List;
+import java.util.Set;
 
 import io.netty.handler.codec.http.HttpHeaders;
 import net.canaydogan.umbrella.HttpHeaderCollection;
@@ -14,7 +15,7 @@ public class HttpHeadersWrapper implements HttpHeaderCollection {
 	}
 	
 	@Override
-	public HttpHeaderCollection set(String name, Object value) {
+	public HttpHeaderCollection set(String name, String value) {
 		headers.set(name, value);
 		return this;
 	}
@@ -30,9 +31,19 @@ public class HttpHeadersWrapper implements HttpHeaderCollection {
 	}
 
 	@Override
-	public HttpHeaderCollection add(String name, Object value) {
+	public HttpHeaderCollection add(String name, String value) {
 		headers.add(name, value);
 		return this;
+	}
+
+	@Override
+	public boolean contains(String name) {
+		return headers.contains(name);
+	}
+
+	@Override
+	public Set<String> nameSet() {
+		return headers.names();
 	}
 
 }

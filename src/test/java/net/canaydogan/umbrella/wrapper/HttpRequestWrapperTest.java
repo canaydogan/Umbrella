@@ -1,5 +1,6 @@
 package net.canaydogan.umbrella.wrapper;
 
+import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import net.canaydogan.umbrella.HttpRequest;
@@ -99,6 +100,18 @@ public class HttpRequestWrapperTest {
 		HttpRequest request = new HttpRequestWrapper(nettyRequest);
 		
 		assertEquals("value1", request.getCookieCollection().get("cookie1").getValue());
+	}
+	
+	@Test
+	public void testIsSuccess() {
+		DecoderResult decoderResult = mock(DecoderResult.class);		
+		when(nettyRequest.getDecoderResult()).thenReturn(decoderResult);
+		
+		when(decoderResult.isSuccess()).thenReturn(false);
+		assertFalse(request.isSuccess());
+		
+		when(decoderResult.isSuccess()).thenReturn(true);
+		assertTrue(request.isSuccess());
 	}
 	
 }

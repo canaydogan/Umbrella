@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.wrapper;
+package net.canaydogan.umbrella.util;
 
 import io.netty.handler.codec.http.Cookie;
 import io.netty.handler.codec.http.CookieDecoder;

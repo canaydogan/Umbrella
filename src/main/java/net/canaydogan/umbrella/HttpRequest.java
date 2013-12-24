@@ -20,4 +20,6 @@ public interface HttpRequest {
 	
 	public HttpCookieCollection getCookieCollection();
 	
+	public boolean isSuccess();
+	
 }

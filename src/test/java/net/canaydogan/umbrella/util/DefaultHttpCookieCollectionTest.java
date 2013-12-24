@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.wrapper;
+package net.canaydogan.umbrella.util;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.net.HttpCookie;
 import java.util.List;
 
 import net.canaydogan.umbrella.HttpCookieCollection;
+import net.canaydogan.umbrella.util.DefaultHttpCookieCollection;
 
 import org.junit.Before;
 import org.junit.Test;

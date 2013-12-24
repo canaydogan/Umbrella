@@ -6,6 +6,7 @@ import net.canaydogan.umbrella.HttpCookieCollection;
 import net.canaydogan.umbrella.HttpHeaderCollection;
 import net.canaydogan.umbrella.HttpQuery;
 import net.canaydogan.umbrella.HttpRequest;
+import net.canaydogan.umbrella.util.DefaultHttpCookieCollection;
 
 public class HttpRequestWrapper implements HttpRequest {
 	
@@ -71,6 +72,11 @@ public class HttpRequestWrapper implements HttpRequest {
 	@Override
 	public HttpCookieCollection getCookieCollection() {
 		return cookieCollection;
+	}
+
+	@Override
+	public boolean isSuccess() {
+		return request.getDecoderResult().isSuccess();
 	}
 
 }

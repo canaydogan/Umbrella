@@ -9,6 +9,7 @@ import io.netty.util.CharsetUtil;
 import net.canaydogan.umbrella.HttpCookieCollection;
 import net.canaydogan.umbrella.HttpHeaderCollection;
 import net.canaydogan.umbrella.HttpResponse;
+import net.canaydogan.umbrella.util.DefaultHttpCookieCollection;
 
 public class FullHttpResponseWrapper implements HttpResponse {
 

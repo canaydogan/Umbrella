@@ -10,23 +10,26 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.util.CharsetUtil;
+import io.netty.util.ReferenceCountUtil;
 import net.canaydogan.umbrella.handler.HttpHandler;
 import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.helper.HttpResponseBuilder;
+import net.canaydogan.umbrella.util.DefaultHttpResponse;
 import net.canaydogan.umbrella.wrapper.FullHttpResponseWrapper;
 import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
 
-class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
+class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
-    private HttpRequest request;
+    private FullHttpRequest request;
     
     protected HttpHandlerContext context;
     
@@ -45,7 +48,8 @@ class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
         // Decide whether to close the connection or not.
         boolean keepAlive = isKeepAlive(request);
         // Build the response object.
-        FullHttpResponse response = ((FullHttpResponseWrapper) context.getResponse()).getNettyResponse();
+        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
+        HttpResponseBuilder.build(response, context.getResponse());
 
         response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");        
 
@@ -77,36 +81,37 @@ class UmbrellaServerHandler extends SimpleChannelInboundHandler<Object> {
     protected HttpHandlerContext buildHttpHandlerContext(HttpRequest nettyRequest) {    	
     	return new HttpHandlerContext(
 			new HttpRequestWrapper(nettyRequest), 
-			new FullHttpResponseWrapper(new DefaultFullHttpResponse(HTTP_1_1, OK))
+			new DefaultHttpResponse()
 		);
+    }
+    
+    protected void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
+        context = buildHttpHandlerContext(request);            
+
+        //Buna gerek olmayabilir. HttpObjectAggregator'da da bu kontrol var.
+        if (is100ContinueExpected(request)) {
+            send100Continue(ctx);
+        }
+        
+        ByteBuf content = request.content();
+        
+        if (content.isReadable()) {
+        	context.getRequest().setContent(content.toString(CharsetUtil.UTF_8));
+        }            
+        
+        httpHandler.handleHttpRequest(context);
+        writeResponse(request, ctx);        
     }
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-		if (msg instanceof HttpRequest) {			
-            HttpRequest request = this.request = (HttpRequest) msg;
-            context = buildHttpHandlerContext(request);            
-
-            if (is100ContinueExpected(request)) {
-                send100Continue(ctx);
-            }
-
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		if (msg instanceof FullHttpRequest) {
+			request = (FullHttpRequest) msg;
+            handleHttpRequest(ctx, request);
+        } else if (msg instanceof WebSocketFrame) {
+            //handleWebSocketFrame(ctx, (WebSocketFrame) msg);
+        } else {
+            ReferenceCountUtil.release(msg);
         }
-
-        if (msg instanceof HttpContent) {
-            HttpContent httpContent = (HttpContent) msg;
-            ByteBuf content = httpContent.content();
-            
-            if (content.isReadable()) {
-            	context.getRequest().setContent(content.toString(CharsetUtil.UTF_8));
-            }            
-            
-            if (msg instanceof LastHttpContent) {
-                LastHttpContent trailer = (LastHttpContent) msg;                
-                httpHandler.handleHttpRequest(context);
-                context.getResponse().finish();
-                writeResponse(trailer, ctx);
-            }
-        }		
 	}
 }

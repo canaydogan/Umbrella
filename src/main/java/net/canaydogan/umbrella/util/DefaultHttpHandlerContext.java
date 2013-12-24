@@ -1,10 +1,11 @@
-package net.canaydogan.umbrella.handler;
+package net.canaydogan.umbrella.util;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.router.RouteMatch;
 
-public class HttpHandlerContext {
+public class DefaultHttpHandlerContext implements HttpHandlerContext {
 
 	protected HttpRequest request;
 	
@@ -14,16 +15,17 @@ public class HttpHandlerContext {
 	
 	protected Exception exception;
 	
-	public HttpHandlerContext(HttpRequest request, HttpResponse response) {
+	public DefaultHttpHandlerContext(HttpRequest request, HttpResponse response) {
 		setRequest(request);
 		setResponse(response);
 	}
 	
-	public HttpHandlerContext(HttpRequest request, HttpResponse response, RouteMatch routeMatch) {
+	public DefaultHttpHandlerContext(HttpRequest request, HttpResponse response, RouteMatch routeMatch) {
 		this(request, response);
 		setRouteMatch(routeMatch);
 	}
 
+	@Override
 	public HttpRequest getRequest() {
 		return request;
 	}
@@ -32,6 +34,7 @@ public class HttpHandlerContext {
 		this.request = request;
 	}
 
+	@Override
 	public HttpResponse getResponse() {
 		return response;
 	}
@@ -40,24 +43,29 @@ public class HttpHandlerContext {
 		this.response = response;
 	}
 
+	@Override
 	public RouteMatch getRouteMatch() {
 		return routeMatch;
 	}
 
+	@Override
 	public void setRouteMatch(RouteMatch routeMatch) {
 		this.routeMatch = routeMatch;
 	}
 
+	@Override
 	public void setException(Exception exception) {
 		this.exception = exception;
 	}
 
+	@Override
 	public Exception getException() {
 		return exception;
 	}
 
+	@Override
 	public boolean hasException() {
 		return !(null == exception);
-	}	
+	}
 	
 }

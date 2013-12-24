@@ -1,10 +1,11 @@
 package net.canaydogan.umbrella.restful;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.condition.Condition;
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
 import net.canaydogan.umbrella.restful.exception.InvalidRequestException;
 import net.canaydogan.umbrella.restful.exception.ResourceNotFoundException;
 import net.canaydogan.umbrella.router.RouteMatch;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 	@Before
 	public void setUp() {
 		stack = new ConditionalResourceStack();				
-		context = new HttpHandlerContext(null, null);
+		context = new DefaultHttpHandlerContext(null, null);
 		context.setRouteMatch(new RouteMatch());		
 	}
 	

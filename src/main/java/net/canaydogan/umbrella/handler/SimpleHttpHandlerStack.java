@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.condition.Condition;
 
 public class SimpleHttpHandlerStack implements HttpHandlerStack {

@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.condition.Condition;
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
 
 import org.junit.Test;
 

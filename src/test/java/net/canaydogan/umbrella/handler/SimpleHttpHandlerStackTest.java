@@ -5,7 +5,9 @@ import static org.mockito.Mockito.*;
 
 import java.util.Map;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.condition.Condition;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +42,7 @@ public class SimpleHttpHandlerStackTest {
 	@Test
 	public void testHandlerHttpRequestWithOneValidHandler() throws Exception {
 		//HttpContext
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//Handler
 		HttpHandler handler = mock(HttpHandler.class);
@@ -54,7 +56,7 @@ public class SimpleHttpHandlerStackTest {
 	@Test
 	public void testHandlerHttpRequestWithInvalidHandler() throws Exception {
 		//HttpContext
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//Handler
 		HttpHandler handler = mock(HttpHandler.class);
@@ -68,7 +70,7 @@ public class SimpleHttpHandlerStackTest {
 	@Test
 	public void testHandlerHttpRequestForNonBlock() throws Exception {
 		//HttpContext
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//Condition
 		Condition condition = newCondition(context, true);
@@ -90,7 +92,7 @@ public class SimpleHttpHandlerStackTest {
 	@Test
 	public void testHandlerHttpRequestForBlocking() throws Exception {
 		//HttpContext
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//Condition
 		Condition condition = newCondition(context, true);
@@ -112,7 +114,7 @@ public class SimpleHttpHandlerStackTest {
 	@Test
 	public void testHandleHttpRequestForException() throws Exception {
 		//HttpContext
-		HttpHandlerContext context = new HttpHandlerContext(null, null);		
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);		
 		
 		//Exception
 		Exception exception = new Exception();

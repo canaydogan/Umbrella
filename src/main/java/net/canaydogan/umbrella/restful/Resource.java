@@ -1,6 +1,6 @@
 package net.canaydogan.umbrella.restful;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 
 public interface Resource {
 

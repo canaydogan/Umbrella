@@ -2,6 +2,7 @@ package net.canaydogan.umbrella.handler;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.HttpRequest.Method;
@@ -10,6 +11,7 @@ import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
 import net.canaydogan.umbrella.restful.Resource;
 import net.canaydogan.umbrella.router.Route;
 import net.canaydogan.umbrella.router.RouteMatch;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class RestfulHandlerTest {
 		HttpResponse response = mock(HttpResponse.class);
 		
 		//Context
-		HttpHandlerContext context = new HttpHandlerContext(request, response);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(request, response);
 		
 		return context;
 	}

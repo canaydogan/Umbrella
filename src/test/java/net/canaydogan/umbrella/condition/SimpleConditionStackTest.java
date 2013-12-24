@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.condition.Condition;
 import net.canaydogan.umbrella.condition.ConditionStack;
 import net.canaydogan.umbrella.condition.SimpleConditionStack;
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class SimpleConditionStackTest extends AbstractCondition {
 	@Override
 	public Map<Condition, HttpHandlerContext> newValidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//With no condition
 		ConditionStack stack1 = new SimpleConditionStack();			
@@ -57,7 +58,7 @@ public class SimpleConditionStackTest extends AbstractCondition {
 	@Override
 	public Map<Condition, HttpHandlerContext> newInvalidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();
-		HttpHandlerContext context = new HttpHandlerContext(null, null);
+		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
 		//Stack with one invalid condition
 		ConditionStack stack1 = new SimpleConditionStack();

@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.restful.exception.ResourceNotFoundException;
 
 abstract public class AbstractResourceStack {

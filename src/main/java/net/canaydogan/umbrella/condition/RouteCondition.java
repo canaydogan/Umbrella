@@ -1,6 +1,6 @@
 package net.canaydogan.umbrella.condition;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.router.Route;
 
 public class RouteCondition implements Condition {

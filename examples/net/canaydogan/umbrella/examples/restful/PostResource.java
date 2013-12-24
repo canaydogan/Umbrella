@@ -1,6 +1,6 @@
 package net.canaydogan.umbrella.examples.restful;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.restful.Resource;
 
 public class PostResource implements Resource {

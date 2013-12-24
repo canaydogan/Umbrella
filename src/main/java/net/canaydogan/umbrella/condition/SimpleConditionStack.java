@@ -3,7 +3,7 @@ package net.canaydogan.umbrella.condition;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 
 public class SimpleConditionStack implements ConditionStack {
 

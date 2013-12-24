@@ -3,7 +3,7 @@ package net.canaydogan.umbrella.restful;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.restful.exception.ResourceNotFoundException;
 
 public class SimpleResourceStack implements ResourceStack {

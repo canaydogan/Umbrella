@@ -1,5 +1,6 @@
 package net.canaydogan.umbrella.handler;
 
+import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;

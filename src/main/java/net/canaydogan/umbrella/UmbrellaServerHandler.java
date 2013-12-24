@@ -21,10 +21,9 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import net.canaydogan.umbrella.handler.HttpHandler;
-import net.canaydogan.umbrella.handler.HttpHandlerContext;
 import net.canaydogan.umbrella.helper.HttpResponseBuilder;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 import net.canaydogan.umbrella.util.DefaultHttpResponse;
-import net.canaydogan.umbrella.wrapper.FullHttpResponseWrapper;
 import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
 
 class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
@@ -79,7 +78,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     }
     
     protected HttpHandlerContext buildHttpHandlerContext(HttpRequest nettyRequest) {    	
-    	return new HttpHandlerContext(
+    	return new DefaultHttpHandlerContext(
 			new HttpRequestWrapper(nettyRequest), 
 			new DefaultHttpResponse()
 		);

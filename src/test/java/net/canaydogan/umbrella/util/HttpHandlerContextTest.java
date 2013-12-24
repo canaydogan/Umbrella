@@ -1,8 +1,9 @@
-package net.canaydogan.umbrella.handler;
+package net.canaydogan.umbrella.util;
 
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.router.RouteMatch;
+import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,13 +13,13 @@ import static org.mockito.Mockito.*;
 
 public class HttpHandlerContextTest {
 
-	private HttpHandlerContext context;
+	private DefaultHttpHandlerContext context;
 	
 	@Before
 	public void setUp() {
 		HttpRequest request = mock(HttpRequest.class);
 		HttpResponse response = mock(HttpResponse.class);
-		context = new HttpHandlerContext(request, response);
+		context = new DefaultHttpHandlerContext(request, response);
 	}
 	
 	@Test

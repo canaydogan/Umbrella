@@ -66,4 +66,16 @@ public class FullHttpResponseWrapper implements HttpResponse {
 		return cookieCollection;
 	}
 
+	@Override
+	public HttpResponse setStatus(Status status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Status getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

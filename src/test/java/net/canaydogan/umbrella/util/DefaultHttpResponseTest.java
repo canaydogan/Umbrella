@@ -18,7 +18,8 @@ public class DefaultHttpResponseTest {
 	@Test
 	public void testCreation() {
 		assertNotNull(response.getHeaderCollection());
-		assertNotNull(response.getCookieCollection());	
+		assertNotNull(response.getCookieCollection());
+		assertEquals(HttpResponse.Status.OK, response.getStatus());
 	}
 	
 	@Test
@@ -26,6 +27,13 @@ public class DefaultHttpResponseTest {
 		response.setContent("content");
 		
 		assertEquals("content", response.getContent());
+	}
+	
+	@Test
+	public void testSetAndGetStatus() {
+		response.setStatus(HttpResponse.Status.NOT_FOUND);
+		
+		assertEquals(HttpResponse.Status.NOT_FOUND, response.getStatus());
 	}
 	
 }

@@ -12,6 +12,8 @@ public class DefaultHttpResponse implements HttpResponse {
 	
 	protected HttpCookieCollection cookieCollection = new DefaultHttpCookieCollection();
 	
+	protected HttpResponse.Status status = HttpResponse.Status.OK;
+	
 	@Override
 	public HttpResponse setContent(Object content) {
 		this.content = content;
@@ -37,6 +39,17 @@ public class DefaultHttpResponse implements HttpResponse {
 	@Override
 	public HttpCookieCollection getCookieCollection() {
 		return cookieCollection;
+	}
+
+	@Override
+	public HttpResponse setStatus(Status status) {
+		this.status = status;
+		return this;
+	}
+
+	@Override
+	public Status getStatus() {
+		return status;
 	}
 	
 }

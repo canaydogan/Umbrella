@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.helper;
+package net.canaydogan.umbrella.util;
 
 import static org.junit.Assert.*;
 

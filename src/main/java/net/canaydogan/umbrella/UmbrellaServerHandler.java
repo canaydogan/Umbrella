@@ -9,21 +9,25 @@ import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.stream.ChunkedFile;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import net.canaydogan.umbrella.handler.HttpHandler;
-import net.canaydogan.umbrella.helper.HttpResponseBuilder;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 import net.canaydogan.umbrella.util.DefaultHttpResponse;
+import net.canaydogan.umbrella.util.HttpResponseBuilder;
 import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
 
 class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
@@ -43,7 +47,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         ctx.flush();
     }
 
-    private boolean writeResponse(HttpObject currentObj, ChannelHandlerContext ctx) {
+    private boolean writeStandardResponse(ChannelHandlerContext ctx) {
         // Decide whether to close the connection or not.
         boolean keepAlive = isKeepAlive(request);
         // Build the response object.
@@ -63,7 +67,34 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         // Write the response.
         ctx.write(response);
 
+        System.out.println(keepAlive);
         return keepAlive;
+    }
+    
+    private void writeFileResponse(ChannelHandlerContext ctx) {
+    	boolean keepAlive = isKeepAlive(request);
+    	
+    	if (keepAlive) {
+            context.getResponse().getHeaderCollection().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+        }
+    	
+        // Write the initial line and the header.
+        ctx.write(
+    		HttpResponseBuilder.build(new io.netty.handler.codec.http.DefaultHttpResponse(HTTP_1_1, OK), context.getResponse())
+		);
+
+        ctx.write(context.getResponse().getContent(), ctx.newProgressivePromise());
+        
+        context.getResponse().setContent(null);
+        
+        // Write the end marker
+        ChannelFuture lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
+
+        // Decide whether to close the connection or not.
+        if (!keepAlive) {
+            // Close the connection when the whole content is written out.
+            lastContentFuture.addListener(ChannelFutureListener.CLOSE);
+        }    	
     }
 
     private static void send100Continue(ChannelHandlerContext ctx) {
@@ -85,7 +116,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     }
     
     protected void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
-        context = buildHttpHandlerContext(request);            
+        context = buildHttpHandlerContext(request);
 
         //Buna gerek olmayabilir. HttpObjectAggregator'da da bu kontrol var.
         if (is100ContinueExpected(request)) {
@@ -99,11 +130,18 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         }            
         
         httpHandler.handleHttpRequest(context);
-        writeResponse(request, ctx);        
+        
+        if (context.getResponse().getContent() instanceof ChunkedFile
+    		|| context.getResponse().getContent() instanceof DefaultFileRegion) {
+        	writeFileResponse(ctx);
+        } else {
+        	writeStandardResponse(ctx);	
+        }                
     }
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		System.out.println("channel read..");
 		if (msg instanceof FullHttpRequest) {
 			request = (FullHttpRequest) msg;
             handleHttpRequest(ctx, request);
@@ -112,5 +150,6 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         } else {
             ReferenceCountUtil.release(msg);
         }
+		super.channelRead(ctx, msg);
 	}
 }

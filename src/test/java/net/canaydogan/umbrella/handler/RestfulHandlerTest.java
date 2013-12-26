@@ -167,6 +167,6 @@ public class RestfulHandlerTest {
 		
 		when(handler.getRoute().match(context.getRequest())).thenReturn(null);
 		assertTrue(handler.handleHttpRequest(context));
-	}
+	}	
 	
 }

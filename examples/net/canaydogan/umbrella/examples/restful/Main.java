@@ -1,7 +1,7 @@
 package net.canaydogan.umbrella.examples.restful;
 
+import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.UmbrellaServer;
-import net.canaydogan.umbrella.handler.HttpHandler;
 import net.canaydogan.umbrella.handler.RestfulHandler;
 import net.canaydogan.umbrella.restful.SimpleResourceStack;
 import net.canaydogan.umbrella.router.RouteStack;

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
@@ -123,8 +124,9 @@ public class StaticFileHandler implements HttpHandler {
         long fileLength = raf.length();
         
         context.getResponse().getHeaderCollection().set(HttpHeaders.Names.CONTENT_LENGTH, String.valueOf(fileLength));
-        context.getResponse().getHeaderCollection().set(HttpHeaders.Names.CONTENT_TYPE, findMimeType(uri));
-        setDateAndCacheHeaders(context.getResponse(), file);
+        context.getResponse().getHeaderCollection().set(HttpHeaders.Names.CONTENT_TYPE, findMimeType(path));
+        context.getResponse().setStatus(Status.OK);
+        setDateAndCacheHeaders(context.getResponse(), file);        
         
         if (useSendFile) {
         	context.getResponse().setContent(new DefaultFileRegion(raf.getChannel(), 0, fileLength));
@@ -138,7 +140,7 @@ public class StaticFileHandler implements HttpHandler {
 	
 	public String sanitizeUri(String uri) {
 		if (null == uri) {
-			return null;
+			return "/";
 		}
         // Decode the path.
         try {
@@ -171,7 +173,7 @@ public class StaticFileHandler implements HttpHandler {
     }
 	
 	public String buildPath(String uri, String directory, String defaultFile) {
-		if (null == uri || uri.equals("") || uri.equals("/")) {
+		if (null == uri || uri.equals("") || uri.equals("/") || uri.equals("\\")) {
 			uri = defaultFile;
 		}
 		

@@ -5,7 +5,9 @@ import static org.mockito.Mockito.*;
 
 import java.util.Map;
 
+import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
+import net.canaydogan.umbrella.HttpHandlerStack;
 import net.canaydogan.umbrella.condition.Condition;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 

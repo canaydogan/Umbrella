@@ -1,6 +1,5 @@
 package net.canaydogan.umbrella;
 
-import net.canaydogan.umbrella.handler.HttpHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

@@ -2,9 +2,9 @@ package net.canaydogan.umbrella.examples.helloworld;
 
 import java.net.HttpCookie;
 
+import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.UmbrellaServer;
-import net.canaydogan.umbrella.handler.HttpHandler;
 
 class Main {
 

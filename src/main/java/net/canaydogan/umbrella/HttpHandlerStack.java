@@ -1,4 +1,4 @@
-package net.canaydogan.umbrella.handler;
+package net.canaydogan.umbrella;
 
 import net.canaydogan.umbrella.condition.Condition;
 

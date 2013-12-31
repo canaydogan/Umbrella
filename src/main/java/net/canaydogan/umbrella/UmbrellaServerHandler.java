@@ -5,6 +5,7 @@ import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
+import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -20,15 +21,22 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.handler.stream.ChunkedFile;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
-import net.canaydogan.umbrella.handler.HttpHandler;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 import net.canaydogan.umbrella.util.DefaultHttpResponse;
 import net.canaydogan.umbrella.util.HttpResponseBuilder;
 import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
+import net.canaydogan.umbrella.wrapper.WebSocketChannelHandlerContextWrapper;
 
 class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -37,6 +45,10 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     protected HttpHandlerContext context;
     
     protected HttpHandler httpHandler;
+    
+    protected WebSocketHandler webSocketHandler;
+    
+    protected WebSocketChannelHandlerContextWrapper webSocketHandlerContext;
     
     public UmbrellaServerHandler(HttpHandler httpHandler) {
     	this.httpHandler = httpHandler;
@@ -66,8 +78,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
         // Write the response.
         ctx.write(response);
-
-        System.out.println(keepAlive);
+        
         return keepAlive;
     }
     
@@ -117,7 +128,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     
     protected void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         context = buildHttpHandlerContext(request);
-
+System.out.println(context.getRequest().getUri());
         //Buna gerek olmayabilir. HttpObjectAggregator'da da bu kontrol var.
         if (is100ContinueExpected(request)) {
             send100Continue(ctx);
@@ -134,6 +145,27 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         if (context.getResponse().getContent() instanceof ChunkedFile
     		|| context.getResponse().getContent() instanceof DefaultFileRegion) {
         	writeFileResponse(ctx);
+        } else if (context.getResponse().getContent() instanceof WebSocketHandler) {
+        	WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
+                    getWebSocketLocation(context), null, false);
+        	System.out.println(getWebSocketLocation(context));
+        	WebSocketServerHandshaker handshaker = wsFactory.newHandshaker(request);
+        	if (null == handshaker) {
+        		WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
+        	} else {
+        		handshaker.handshake(ctx.channel(), request);
+        		
+        		webSocketHandlerContext = new WebSocketChannelHandlerContextWrapper(
+        				ctx, handshaker, context.getRequest());
+        		webSocketHandler = (WebSocketHandler) context.getResponse().getContent(); 
+        		webSocketHandler.onOpen(webSocketHandlerContext);
+        		ctx.channel().closeFuture().addListener(new ChannelFutureListener() {					
+					@Override
+					public void operationComplete(ChannelFuture future) throws Exception {
+						webSocketHandler.onClose(webSocketHandlerContext);
+					}
+				});
+        	}
         } else {
         	writeStandardResponse(ctx);	
         }                
@@ -141,15 +173,45 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("channel read..");
 		if (msg instanceof FullHttpRequest) {
 			request = (FullHttpRequest) msg;
             handleHttpRequest(ctx, request);
         } else if (msg instanceof WebSocketFrame) {
-            //handleWebSocketFrame(ctx, (WebSocketFrame) msg);
+            handleWebSocketFrame((WebSocketFrame) msg);
         } else {
             ReferenceCountUtil.release(msg);
         }
-		super.channelRead(ctx, msg);
+		//super.channelRead(ctx, msg);
 	}
+	
+	private void handleWebSocketFrame(WebSocketFrame frame) throws Exception {
+		if (frame instanceof CloseWebSocketFrame) {
+			webSocketHandlerContext.close((CloseWebSocketFrame) frame);
+			return;
+		} else if (frame instanceof PingWebSocketFrame) {
+			byte[] message = new byte[frame.content().readableBytes()];
+			frame.content().readBytes(message);
+			webSocketHandler.onPing(webSocketHandlerContext, message);
+			return;
+		} else if (frame instanceof PongWebSocketFrame) {
+			byte[] message = new byte[frame.content().readableBytes()];
+			frame.content().readBytes(message);
+			webSocketHandler.onPong(webSocketHandlerContext, message);
+			return;
+		} else if (frame instanceof BinaryWebSocketFrame) {
+			webSocketHandler.onMessage(webSocketHandlerContext, frame.content().array());
+			return;
+		} else if (!(frame instanceof TextWebSocketFrame)) {
+			// TODO kendi exception ile degistir.
+            throw new UnsupportedOperationException(String.format("%s frame types not supported", frame.getClass()
+                    .getName()));
+        }
+		
+		webSocketHandler.onMessage(webSocketHandlerContext, ((TextWebSocketFrame) frame).text());
+	}
+
+	private static String getWebSocketLocation(HttpHandlerContext context) {
+        return "ws://" + context.getRequest().getHeaderCollection().get(HOST) + context.getRequest().getUri();
+    }
+	
 }

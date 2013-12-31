@@ -87,6 +87,7 @@ public class StaticFileHandlerTest {
 		handler.handleHttpRequest(context);
 		verify(context.getResponse().getHeaderCollection(), times(1)).set(HttpHeaders.Names.CONTENT_LENGTH, "13");
 		verify(context.getResponse().getHeaderCollection(), times(1)).set(eq(HttpHeaders.Names.CONTENT_TYPE), anyString());
+		verify(context.getResponse(), times(1)).setStatus(Status.OK);
 		
 		//Verify cache values
 		verify(context.getResponse().getHeaderCollection(), times(1)).set(eq(HttpHeaders.Names.DATE), anyString());
@@ -108,16 +109,16 @@ public class StaticFileHandlerTest {
 	
 	@Test
 	public void testSanitizeUrlWithInvalidValues() {
-		String[] values = {null, "test.txt", "/../test.txt", "\\dir\\..\\etc\\password\\test.txt", "/../../etc/password"};
+		String[] values = {"test.txt", "/../test.txt", "\\dir\\..\\etc\\password\\test.txt", "/../../etc/password"};
 		
 		for (String value : values) {
 			assertNull(handler.sanitizeUri(value));
-		}		
+		}
 	}
 		
 	@Test
 	public void testSanitizeUrlWithValidValues() {
-		String[] values = {"/test.txt", "/directory/test.txt"};
+		String[] values = {"/test.txt", "/directory/test.txt", null};
 		
 		for (String value : values) {
 			assertNotNull(handler.sanitizeUri(value));
@@ -130,6 +131,7 @@ public class StaticFileHandlerTest {
 		assertEquals("/directory/index.html", handler.buildPath("/", "/directory", "/index.html"));
 		assertEquals("/directory/index.html", handler.buildPath("", "/directory", "/index.html"));
 		assertEquals("/directory/index.html", handler.buildPath(null, "/directory", "/index.html"));
+		assertEquals("/directory/index.html", handler.buildPath("\\", "/directory", "/index.html"));
 	}
 	
 	@Test

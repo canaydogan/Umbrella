@@ -23,7 +23,7 @@ public class SimpleResourceStack implements ResourceStack {
 	}
 	
 	protected String getIdentifier(HttpHandlerContext context) {		
-		return context.getRouteMatch().getParam(getIdentifierName());
+		return context.getRequest().getRouteMatch().getParam(getIdentifierName());
 	}
 
 	@Override

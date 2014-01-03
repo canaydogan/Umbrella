@@ -9,6 +9,7 @@ import net.canaydogan.umbrella.UmbrellaServer;
 class Main {
 
 	public static void main(String[] args) throws Exception {
+		System.out.println("HelloWorld Example");
 		UmbrellaServer server = new UmbrellaServer();
 		server.setHttpHandler(new HttpHandler() {			
 			@Override

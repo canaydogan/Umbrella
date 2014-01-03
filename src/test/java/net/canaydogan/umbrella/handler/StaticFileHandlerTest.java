@@ -73,7 +73,7 @@ public class StaticFileHandlerTest {
 	
 	@Test
 	public void testHttpHandlerForNotModifiedWithValidDate() throws Exception {
-		when(context.getRequest().getHeaderCollection().get(HttpHeaders.Names.IF_MODIFIED_SINCE)).thenReturn("Wed, 25 Dec 2013 20:38:00 GMT");		
+		when(context.getRequest().getHeaderCollection().get(HttpHeaders.Names.IF_MODIFIED_SINCE)).thenReturn("Wed, 1 Jan 2014 13:51:14 GMT");		
 		when(context.getRequest().getUri()).thenReturn("/content/test.txt");
 		
 		assertFalse(handler.handleHttpRequest(context));

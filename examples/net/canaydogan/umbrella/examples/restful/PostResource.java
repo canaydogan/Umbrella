@@ -7,7 +7,7 @@ public class PostResource implements Resource {
 
 	@Override
 	public Object get(HttpHandlerContext context) throws Exception {
-		System.out.println(context.getRouteMatch().getParam("id"));
+		System.out.println(context.getRequest().getRouteMatch().getParam("id"));
 		return "PostResource Get";
 	}
 

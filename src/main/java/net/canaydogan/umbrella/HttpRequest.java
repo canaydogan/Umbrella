@@ -1,5 +1,7 @@
 package net.canaydogan.umbrella;
 
+import net.canaydogan.umbrella.router.RouteMatch;
+
 public interface HttpRequest {
 	
 	public enum Method {
@@ -22,4 +24,8 @@ public interface HttpRequest {
 	
 	public boolean isSuccess();
 	
+	public RouteMatch getRouteMatch();
+
+	public void setRouteMatch(RouteMatch routeMatch);
+		
 }

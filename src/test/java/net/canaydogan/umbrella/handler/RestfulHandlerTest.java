@@ -31,9 +31,14 @@ public class RestfulHandlerTest {
 	}
 	
 	public HttpHandlerContext newContext(Method method) {
+		return newContext(method, new RouteMatch());
+	}
+	
+	public HttpHandlerContext newContext(Method method, RouteMatch routeMatch) {
 		//Request
 		HttpRequest request = mock(HttpRequest.class);
 		when(request.getMethod()).thenReturn(method);
+		when(request.getRouteMatch()).thenReturn(routeMatch);
 		
 		//Response
 		HttpResponse response = mock(HttpResponse.class);
@@ -125,16 +130,18 @@ public class RestfulHandlerTest {
 	
 	@Test
 	public void testHandleHttpRequestForGet() throws Exception {
+		//Route match
+		RouteMatch routeMatch = new RouteMatch();
+		routeMatch.setParam("myId", "12");
+		
 		//Context
-		HttpHandlerContext context = newContext(Method.GET);					
+		HttpHandlerContext context = newContext(Method.GET, routeMatch);					
 		
 		//Resource
 		Resource resource = mock(Resource.class);
 		when(resource.get(context)).thenReturn("get");
 		
-		//Route
-		RouteMatch routeMatch = new RouteMatch();
-		routeMatch.setParam("myId", "12");
+		//Route		
 		Route route = mock(Route.class);		
 		when(route.match(context.getRequest())).thenReturn(routeMatch);
 		
@@ -163,7 +170,7 @@ public class RestfulHandlerTest {
 	
 	@Test()
 	public void testHandleHttpRequestForNullRouteMatch() throws Exception {
-		HttpHandlerContext context = newContext(Method.OPTIONS);
+		HttpHandlerContext context = newContext(Method.OPTIONS, null);
 		
 		when(handler.getRoute().match(context.getRequest())).thenReturn(null);
 		assertTrue(handler.handleHttpRequest(context));

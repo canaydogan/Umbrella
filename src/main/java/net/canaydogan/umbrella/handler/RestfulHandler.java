@@ -32,9 +32,9 @@ public class RestfulHandler implements HttpHandler {
 			throw new ConfigurationException();
 		}
 		
-		context.setRouteMatch(route.match(request));
+		context.getRequest().setRouteMatch(route.match(request));
 		
-		if (null == context.getRouteMatch()) {
+		if (null == context.getRequest().getRouteMatch()) {
 			return true;
 		}
 
@@ -71,7 +71,7 @@ public class RestfulHandler implements HttpHandler {
 	}
 	
 	protected String getIdentifier(HttpHandlerContext context) {
-		return context.getRouteMatch().getParam(getIdentifierName());
+		return context.getRequest().getRouteMatch().getParam(getIdentifierName());
 	}
 
 	public Resource getResource() {

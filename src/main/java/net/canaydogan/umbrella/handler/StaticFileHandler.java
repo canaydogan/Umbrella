@@ -110,6 +110,7 @@ public class StaticFileHandler implements HttpHandler {
 		}		
 		
 		String ifModifiedSince = context.getRequest().getHeaderCollection().get(IF_MODIFIED_SINCE);
+		
 		if (isNotModified(ifModifiedSince, file.lastModified())) {
 			context.getResponse().setStatus(Status.NOT_MODIFIED);
 			return false;
@@ -132,8 +133,7 @@ public class StaticFileHandler implements HttpHandler {
         	context.getResponse().setContent(new DefaultFileRegion(raf.getChannel(), 0, fileLength));
         } else {
         	context.getResponse().setContent(new ChunkedFile(raf, 0, fileLength, 8192));
-        }
-        
+        }        
 		
 		return false;
 	}

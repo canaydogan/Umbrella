@@ -2,7 +2,6 @@ package net.canaydogan.umbrella.util;
 
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
-import net.canaydogan.umbrella.router.RouteMatch;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
@@ -26,17 +25,14 @@ public class HttpHandlerContextTest {
 	public void testSetterAndGetter() {
 		HttpRequest request = mock(HttpRequest.class);
 		HttpResponse response = mock(HttpResponse.class);
-		RouteMatch routeMatch = new RouteMatch();
 		Exception exception = new Exception();
 		
 		context.setRequest(request);
 		context.setResponse(response);
-		context.setRouteMatch(routeMatch);
 		context.setException(exception);
 		
 		assertEquals(request, context.getRequest());
 		assertEquals(response, context.getResponse());
-		assertEquals(routeMatch, context.getRouteMatch());
 		assertSame(exception, context.getException());
 	}
 	

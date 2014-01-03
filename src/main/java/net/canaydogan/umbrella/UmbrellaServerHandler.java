@@ -30,6 +30,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.handler.stream.ChunkedFile;
+import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
@@ -54,11 +55,6 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     	this.httpHandler = httpHandler;
     }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
-    }
-
     private boolean writeStandardResponse(ChannelHandlerContext ctx) {
         // Decide whether to close the connection or not.
         boolean keepAlive = isKeepAlive(request);
@@ -77,7 +73,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
         }
 
         // Write the response.
-        ctx.write(response);
+        ctx.writeAndFlush(response);
         
         return keepAlive;
     }
@@ -128,7 +124,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
     
     protected void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         context = buildHttpHandlerContext(request);
-System.out.println(context.getRequest().getUri());
+        
         //Buna gerek olmayabilir. HttpObjectAggregator'da da bu kontrol var.
         if (is100ContinueExpected(request)) {
             send100Continue(ctx);
@@ -144,11 +140,11 @@ System.out.println(context.getRequest().getUri());
         
         if (context.getResponse().getContent() instanceof ChunkedFile
     		|| context.getResponse().getContent() instanceof DefaultFileRegion) {
+        	ctx.pipeline().addBefore("handler", "chunkedWriter", new ChunkedWriteHandler());
         	writeFileResponse(ctx);
         } else if (context.getResponse().getContent() instanceof WebSocketHandler) {
         	WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
                     getWebSocketLocation(context), null, false);
-        	System.out.println(getWebSocketLocation(context));
         	WebSocketServerHandshaker handshaker = wsFactory.newHandshaker(request);
         	if (null == handshaker) {
         		WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
@@ -181,7 +177,6 @@ System.out.println(context.getRequest().getUri());
         } else {
             ReferenceCountUtil.release(msg);
         }
-		//super.channelRead(ctx, msg);
 	}
 	
 	private void handleWebSocketFrame(WebSocketFrame frame) throws Exception {

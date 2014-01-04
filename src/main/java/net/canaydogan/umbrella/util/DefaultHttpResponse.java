@@ -12,7 +12,7 @@ public class DefaultHttpResponse implements HttpResponse {
 	
 	protected HttpCookieCollection cookieCollection = new DefaultHttpCookieCollection();
 	
-	protected HttpResponse.Status status = HttpResponse.Status.NOT_FOUND;
+	protected HttpResponse.Status status = HttpResponse.Status.OK;
 	
 	@Override
 	public HttpResponse setContent(Object content) {

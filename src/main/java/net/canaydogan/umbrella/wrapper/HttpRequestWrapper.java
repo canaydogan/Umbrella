@@ -92,4 +92,9 @@ public class HttpRequestWrapper implements HttpRequest {
 		this.routeMatch = routeMatch;
 	}
 
+	@Override
+	public boolean isKeepAlive() {
+		return HttpHeaders.isKeepAlive(request);
+	}	
+
 }

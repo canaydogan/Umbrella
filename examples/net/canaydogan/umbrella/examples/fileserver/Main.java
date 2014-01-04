@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		String directory = System.getProperty("user.dir") + "/src/test/resources/content";		
 		UmbrellaServer server = new UmbrellaServer();
-		HttpHandler staticFileHandler = new StaticFileHandler(directory, "/index.html", true);
+		HttpHandler staticFileHandler = new StaticFileHandler(directory, "/index.html", false);
 		
 		server.setHttpHandler(staticFileHandler);
 		server.setPort(8080);

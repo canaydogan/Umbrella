@@ -35,25 +35,25 @@ public class WebSocketChannelHandlerContextWrapper implements WebSocketHandlerCo
 
 	@Override
 	public WebSocketHandlerContext send(String message) {
-		context.writeAndFlush(new TextWebSocketFrame(message));
+		context.writeAndFlush(new TextWebSocketFrame(message), context.voidPromise());
 		return this;
 	}
 
 	@Override
 	public WebSocketHandlerContext send(byte[] message) {
-		context.writeAndFlush(new BinaryWebSocketFrame(Unpooled.wrappedBuffer(message)));
+		context.writeAndFlush(new BinaryWebSocketFrame(Unpooled.wrappedBuffer(message)), context.voidPromise());
 		return this;
 	}
 
 	@Override
 	public WebSocketHandlerContext ping(byte[] message) {
-		context.writeAndFlush(new PingWebSocketFrame(Unpooled.wrappedBuffer(message)));
+		context.writeAndFlush(new PingWebSocketFrame(Unpooled.wrappedBuffer(message)), context.voidPromise());
 		return this;
 	}
 
 	@Override
 	public WebSocketHandlerContext pong(byte[] message) {
-		context.writeAndFlush(new PongWebSocketFrame(Unpooled.wrappedBuffer(message)));
+		context.writeAndFlush(new PongWebSocketFrame(Unpooled.wrappedBuffer(message)), context.voidPromise());
 		return this;
 	}
 
@@ -66,7 +66,5 @@ public class WebSocketChannelHandlerContextWrapper implements WebSocketHandlerCo
 	public WebSocketHandlerContext close(CloseWebSocketFrame frame) {
 		handshaker.close(context.channel(), frame);
 		return this;
-	}
-	
-
+	}	
 }

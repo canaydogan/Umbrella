@@ -34,7 +34,7 @@ class UmbrellaServerInitializer extends ChannelInitializer<SocketChannel>  {
         //p.addLast("aggregator", new HttpObjectAggregator(1048576));
         p.addLast("encoder", new HttpResponseEncoder());
         
-        //p.addLast("chunkedWriter", new ChunkedWriteHandler());
+        p.addLast("chunkedWriter", new ChunkedWriteHandler());
         
         // Remove the following line if you don't want automatic content compression.
         //p.addLast("deflater", new HttpContentCompressor());        

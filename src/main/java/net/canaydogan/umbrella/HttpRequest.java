@@ -27,5 +27,7 @@ public interface HttpRequest {
 	public RouteMatch getRouteMatch();
 
 	public void setRouteMatch(RouteMatch routeMatch);
+	
+	public boolean isKeepAlive();
 		
 }

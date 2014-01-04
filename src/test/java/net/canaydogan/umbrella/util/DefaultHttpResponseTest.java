@@ -19,7 +19,7 @@ public class DefaultHttpResponseTest {
 	public void testCreation() {
 		assertNotNull(response.getHeaderCollection());
 		assertNotNull(response.getCookieCollection());
-		assertEquals(HttpResponse.Status.NOT_FOUND, response.getStatus());
+		assertEquals(HttpResponse.Status.OK, response.getStatus());
 	}
 	
 	@Test

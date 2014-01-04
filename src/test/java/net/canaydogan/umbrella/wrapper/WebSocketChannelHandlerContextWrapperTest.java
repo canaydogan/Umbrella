@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
@@ -40,28 +41,28 @@ public class WebSocketChannelHandlerContextWrapperTest {
 	@Test
 	public void testSendWithString() {
 		context.send("message");
-		verify(ctx, times(1)).writeAndFlush(any(TextWebSocketFrame.class));
+		verify(ctx, times(1)).writeAndFlush(any(TextWebSocketFrame.class), any(ChannelPromise.class));
 	}
 	
 	@Test
 	public void testSendWithByte() {
 		byte[] message = {'a'};
 		context.send(message);
-		verify(ctx, times(1)).writeAndFlush(any(BinaryWebSocketFrame.class));
+		verify(ctx, times(1)).writeAndFlush(any(BinaryWebSocketFrame.class), any(ChannelPromise.class));
 	}
 	
 	@Test
 	public void testPingWithByte() {
 		byte[] message = {'a'};
 		context.ping(message);
-		verify(ctx, times(1)).writeAndFlush(any(PingWebSocketFrame.class));
+		verify(ctx, times(1)).writeAndFlush(any(PingWebSocketFrame.class), any(ChannelPromise.class));
 	}
 	
 	@Test
 	public void testPongWithByte() {
 		byte[] message = {'a'};
 		context.pong(message);
-		verify(ctx, times(1)).writeAndFlush(any(PongWebSocketFrame.class));
+		verify(ctx, times(1)).writeAndFlush(any(PongWebSocketFrame.class), any(ChannelPromise.class));
 	}
 	
 	@Test

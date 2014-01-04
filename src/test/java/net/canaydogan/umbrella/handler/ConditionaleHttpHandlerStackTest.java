@@ -33,8 +33,6 @@ public class ConditionaleHttpHandlerStackTest {
 		return condition;
 	}
 	
-	
-	
 	@Test
 	public void testAddAndRemoteHttpHandler() throws Exception {
 		Map<HttpHandler, Condition> data = (Map<HttpHandler, Condition>) stack.getClass().getDeclaredField("stack").get(stack);		

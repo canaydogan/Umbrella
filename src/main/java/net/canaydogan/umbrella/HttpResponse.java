@@ -3,7 +3,7 @@ package net.canaydogan.umbrella;
 public interface HttpResponse {
 
 	public enum Status {
-		OK, CONTINUE, NOT_MODIFIED, NOT_FOUND
+		OK, CONTINUE, NOT_MODIFIED, NOT_FOUND, FORBIDDEN, METHOD_NOT_ALLOWED
 	}
 	
 	public HttpResponse setContent(Object content);
@@ -11,7 +11,8 @@ public interface HttpResponse {
 	public Object getContent();
 	
 	public HttpHeaderCollection getHeaderCollection();
-	
+
+	//TODO kaldir.
 	public boolean finish();
 	
 	public HttpCookieCollection getCookieCollection();

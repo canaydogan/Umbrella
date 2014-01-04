@@ -67,6 +67,8 @@ public class HttpResponseBuilderTest {
 		statusMap.put(Status.CONTINUE, HttpResponseStatus.CONTINUE);
 		statusMap.put(Status.NOT_FOUND, HttpResponseStatus.NOT_FOUND);
 		statusMap.put(Status.NOT_MODIFIED, HttpResponseStatus.NOT_MODIFIED);
+		statusMap.put(Status.FORBIDDEN, HttpResponseStatus.FORBIDDEN);
+		statusMap.put(Status.METHOD_NOT_ALLOWED, HttpResponseStatus.METHOD_NOT_ALLOWED);
 		
 		for (Entry<Status, HttpResponseStatus> entry : statusMap.entrySet()) {
 			response.setStatus(entry.getKey());

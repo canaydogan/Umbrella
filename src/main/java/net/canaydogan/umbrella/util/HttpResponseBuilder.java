@@ -41,6 +41,12 @@ public class HttpResponseBuilder {
 			case NOT_FOUND:
 				response.setStatus(HttpResponseStatus.NOT_FOUND);
 				break;
+			case FORBIDDEN:
+				response.setStatus(HttpResponseStatus.FORBIDDEN);
+				break;
+			case METHOD_NOT_ALLOWED:
+				response.setStatus(HttpResponseStatus.METHOD_NOT_ALLOWED);
+				break;
 		}
 		return response;
 	}

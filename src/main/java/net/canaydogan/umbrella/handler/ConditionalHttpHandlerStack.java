@@ -7,9 +7,10 @@ import java.util.Map.Entry;
 import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpHandlerStack;
+import net.canaydogan.umbrella.condition.AlwaysValidCondition;
 import net.canaydogan.umbrella.condition.Condition;
 
-public class SimpleHttpHandlerStack implements HttpHandlerStack {
+public class ConditionalHttpHandlerStack implements HttpHandlerStack {
 
 	protected Map<HttpHandler, Condition> stack = new LinkedHashMap<>();
 	
@@ -32,15 +33,19 @@ public class SimpleHttpHandlerStack implements HttpHandlerStack {
 		return false;
 	}
 
-	@Override
 	public HttpHandlerStack addHttpHandler(HttpHandler handler, Condition condition) {
 		stack.put(handler, condition);
 		return this;
 	}
 
-	@Override
 	public HttpHandlerStack removeHttpHandler(HttpHandler handler) {
 		stack.remove(handler);
+		return this;
+	}
+
+	@Override
+	public HttpHandlerStack addHttpHandler(HttpHandler handler) {
+		addHttpHandler(handler, new AlwaysValidCondition());
 		return this;
 	}
 

@@ -1,26 +1,29 @@
 package net.canaydogan.umbrella.handler;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
 import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
-import net.canaydogan.umbrella.HttpHandlerStack;
 import net.canaydogan.umbrella.condition.Condition;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class SimpleHttpHandlerStackTest {
+public class ConditionaleHttpHandlerStackTest {
 
-	private HttpHandlerStack stack;
+	private ConditionalHttpHandlerStack stack;
 	
 	@Before
 	public void setUp() {
-		stack = new SimpleHttpHandlerStack();
+		stack = new ConditionalHttpHandlerStack();
 	}
 	
 	protected Condition newCondition(HttpHandlerContext context, boolean status) {
@@ -30,13 +33,19 @@ public class SimpleHttpHandlerStackTest {
 		return condition;
 	}
 	
+	
+	
 	@Test
 	public void testAddAndRemoteHttpHandler() throws Exception {
 		Map<HttpHandler, Condition> data = (Map<HttpHandler, Condition>) stack.getClass().getDeclaredField("stack").get(stack);		
 		
-		stack.addHttpHandler(null, null);		
-		assertEquals(1, data.size());	
+		stack.addHttpHandler(null);		
+		assertEquals(1, data.size());			
+		stack.removeHttpHandler(null);
+		assertEquals(0, data.size());	
 		
+		stack.addHttpHandler(null, null);		
+		assertEquals(1, data.size());			
 		stack.removeHttpHandler(null);
 		assertEquals(0, data.size());		
 	}	

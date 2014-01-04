@@ -1,10 +1,9 @@
 package net.canaydogan.umbrella.examples.websocket;
 
 import net.canaydogan.umbrella.HttpHandler;
-import net.canaydogan.umbrella.HttpHandlerStack;
 import net.canaydogan.umbrella.UmbrellaServer;
 import net.canaydogan.umbrella.condition.RouteCondition;
-import net.canaydogan.umbrella.handler.SimpleHttpHandlerStack;
+import net.canaydogan.umbrella.handler.ConditionalHttpHandlerStack;
 import net.canaydogan.umbrella.handler.StaticFileHandler;
 import net.canaydogan.umbrella.handler.WebSocketHandshakerHandler;
 import net.canaydogan.umbrella.router.SegmentRoute;
@@ -17,7 +16,7 @@ public class Main {
 		
 		HttpHandler handshaker = new WebSocketHandshakerHandler(new SimpleWebSocketHandler());
 		HttpHandler staticFileHandler = new StaticFileHandler(directory, "/index.html", true);
-		HttpHandlerStack handlerStack = new SimpleHttpHandlerStack();
+		ConditionalHttpHandlerStack handlerStack = new ConditionalHttpHandlerStack();
 		handlerStack.addHttpHandler(handshaker, new RouteCondition(new SegmentRoute("/socket")));
 		handlerStack.addHttpHandler(staticFileHandler, new RouteCondition(new SegmentRoute("/websocket/index.html")));		
 		

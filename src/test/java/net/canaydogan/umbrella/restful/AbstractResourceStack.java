@@ -3,10 +3,8 @@ package net.canaydogan.umbrella.restful;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
 
 import net.canaydogan.umbrella.HttpHandlerContext;
-import net.canaydogan.umbrella.restful.exception.ResourceNotFoundException;
 
 abstract public class AbstractResourceStack {
 	

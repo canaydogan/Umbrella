@@ -10,7 +10,7 @@ import net.canaydogan.umbrella.HttpRequest;
 
 import org.junit.Test;
 
-public class SegmentRouteTest {
+public class SegmentRouteTest extends AbstractRoute {
 	
 	private Object[][] routes = {
 		{
@@ -49,7 +49,17 @@ public class SegmentRouteTest {
 				put("bar", "segment2");
 				put("format", "json");
 			}}
-		},		
+		},//With Default Values
+		{
+			"/",
+			"/",
+			new HashMap<String, String>(){{
+				put("foo", "default");
+			}},
+			new HashMap<String, String>(){{
+				put("foo", "default");
+			}}
+		},
 		//Unmatching Routes
 		{
 			"/",
@@ -73,18 +83,16 @@ public class SegmentRouteTest {
 		},
 	};
 	
-	public HttpRequest buildRequest(String path) {
-		HttpRequest request = mock(HttpRequest.class);		
-		when(request.getUri()).thenReturn("http://example.com" + path);
-		
-		return request;
-	}
-	
-	
 	@Test
 	public void testMatch() {
 		for (Object[] route : routes) {
-			Route router = new SegmentRoute((String) route[0]);
+			Route router;
+			if (4 == route.length) {
+				router = new SegmentRoute((String) route[0], (Map<String, String>) route[3]);	
+			} else {
+				router = new SegmentRoute((String) route[0]);
+			}
+			
 			HttpRequest request = buildRequest((String) route[1]);
 			RouteMatch match = router.match(request);
 			

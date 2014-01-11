@@ -1,5 +1,8 @@
 package net.canaydogan.umbrella.wrapper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import net.canaydogan.umbrella.HttpCookieCollection;
@@ -22,6 +25,8 @@ public class HttpRequestWrapper implements HttpRequest {
 	protected HttpCookieCollection cookieCollection;
 	
 	protected RouteMatch routeMatch;
+	
+	protected Map<Object, Object> data = new HashMap<>();
 	
 	public HttpRequestWrapper(io.netty.handler.codec.http.HttpRequest request) {
 		this.request = request;
@@ -95,6 +100,11 @@ public class HttpRequestWrapper implements HttpRequest {
 	@Override
 	public boolean isKeepAlive() {
 		return HttpHeaders.isKeepAlive(request);
+	}
+
+	@Override
+	public Map<Object, Object> getData() {
+		return data;
 	}	
 
 }

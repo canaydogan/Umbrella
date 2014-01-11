@@ -1,5 +1,7 @@
 package net.canaydogan.umbrella;
 
+import java.util.Map;
+
 import net.canaydogan.umbrella.router.RouteMatch;
 
 public interface HttpRequest {
@@ -29,5 +31,11 @@ public interface HttpRequest {
 	public void setRouteMatch(RouteMatch routeMatch);
 	
 	public boolean isKeepAlive();
+	
+	/**
+	 * This is general purpose data holder. Use it for what you want
+	 */
+	public Map<Object, Object> getData();
+	
 		
 }

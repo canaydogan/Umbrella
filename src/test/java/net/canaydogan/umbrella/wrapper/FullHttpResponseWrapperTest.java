@@ -46,18 +46,12 @@ public class FullHttpResponseWrapperTest {
 	}
 	
 	@Test
-	public void testFinishWithNullContent() {				
-		assertTrue(response.finish());
-	}
-	
-	@Test
 	public void testFinishForContent() {
 		ByteBuf byteBuf = Unpooled.buffer();
 		when(nettyResponse.content()).thenReturn(byteBuf);
 		response = new FullHttpResponseWrapper(nettyResponse);		
 		response.setContent("My Content");		
 		
-		assertTrue(response.finish());
 		assertEquals(10, byteBuf.readableBytes());
 	}
 	
@@ -72,8 +66,6 @@ public class FullHttpResponseWrapperTest {
 		HttpCookie cookie2 = new HttpCookie("cookie2", "value2");
 		response.getCookieCollection().add(cookie1);
 		response.getCookieCollection().add(cookie2);		
-		
-		assertTrue(response.finish());
 		
 		List<String> cookieList = response.getHeaderCollection().getAll(HttpHeaders.Names.SET_COOKIE);
 		

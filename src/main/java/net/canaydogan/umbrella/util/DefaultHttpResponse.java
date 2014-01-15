@@ -31,12 +31,6 @@ public class DefaultHttpResponse implements HttpResponse {
 	}
 
 	@Override
-	public boolean finish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public HttpCookieCollection getCookieCollection() {
 		return cookieCollection;
 	}

@@ -11,9 +11,6 @@ public interface HttpResponse {
 	public Object getContent();
 	
 	public HttpHeaderCollection getHeaderCollection();
-
-	//TODO kaldir.
-	public boolean finish();
 	
 	public HttpCookieCollection getCookieCollection();
 	

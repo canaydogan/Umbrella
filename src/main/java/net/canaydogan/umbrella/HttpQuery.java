@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface HttpQuery {
 
-	public boolean hasParam(String name);
+	public boolean contains(String name);
 	
-	public String getParam(String name);
+	public String get(String name);
 	
-	public List<String> getParamList(String name);
+	public List<String> getAll(String name);
 	
 }

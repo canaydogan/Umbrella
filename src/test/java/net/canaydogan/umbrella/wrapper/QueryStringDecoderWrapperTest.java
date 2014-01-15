@@ -41,24 +41,24 @@ public class QueryStringDecoderWrapperTest {
 	}
 	
 	@Test
-	public void testHasParam() {
-		assertFalse(query.hasParam("undefined"));
-		assertTrue(query.hasParam("param1"));
-		assertTrue(query.hasParam("param2"));
+	public void testContains() {
+		assertFalse(query.contains("undefined"));
+		assertTrue(query.contains("param1"));
+		assertTrue(query.contains("param2"));
 	}
 	
 	@Test
-	public void testGetParam() {
-		assertEquals("value1", query.getParam("param1"));
-		assertEquals("value1", query.getParam("param2"));
-		assertNull(query.getParam("undefined"));
+	public void testGet() {
+		assertEquals("value1", query.get("param1"));
+		assertEquals("value1", query.get("param2"));
+		assertNull(query.get("undefined"));
 	}
 	
 	@Test
-	public void testGetParams() {
-		assertEquals(1, query.getParamList("param1").size());
-		assertEquals(2, query.getParamList("param2").size());
-		assertNull(query.getParamList("undefined"));
+	public void testGetAll() {
+		assertEquals(1, query.getAll("param1").size());
+		assertEquals(2, query.getAll("param2").size());
+		assertNull(query.getAll("undefined"));
 	}
 		
 }

@@ -89,7 +89,7 @@ public class HttpRequestWrapperTest {
 	
 	@Test
 	public void testGetQuery() {		
-		assertEquals("value", request.getQuery().getParam("param1"));
+		assertEquals("value", request.getQuery().get("param1"));
 	}
 	
 	@Test

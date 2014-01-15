@@ -18,13 +18,13 @@ public class QueryStringDecoderWrapper implements HttpQuery {
 	}
 	
 	@Override
-	public boolean hasParam(String name) {
+	public boolean contains(String name) {
 		return params.containsKey(name);
 	}
 
 	@Override
-	public String getParam(String name) {
-		if (hasParam(name)) {
+	public String get(String name) {
+		if (contains(name)) {
 			return params.get(name).get(0);
 		}
 		
@@ -32,8 +32,8 @@ public class QueryStringDecoderWrapper implements HttpQuery {
 	}
 
 	@Override
-	public List<String> getParamList(String name) {
-		if (hasParam(name)) {
+	public List<String> getAll(String name) {
+		if (contains(name)) {
 			return params.get(name);
 		}
 		return null;

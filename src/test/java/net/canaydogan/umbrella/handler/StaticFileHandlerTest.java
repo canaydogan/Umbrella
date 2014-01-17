@@ -1,5 +1,11 @@
 package net.canaydogan.umbrella.handler;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.stream.ChunkedFile;
@@ -73,7 +79,15 @@ public class StaticFileHandlerTest {
 	
 	@Test
 	public void testHttpHandlerForNotModifiedWithValidDate() throws Exception {
-		when(context.getRequest().getHeaderCollection().get(HttpHeaders.Names.IF_MODIFIED_SINCE)).thenReturn("Wed, 1 Jan 2014 13:51:14 GMT");		
+		File file = new File(directory + "/content/test.txt");
+		Date date = new Date(file.lastModified());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(StaticFileHandler.HTTP_DATE_FORMAT, Locale.US);
+		dateFormat.setTimeZone(TimeZone.getTimeZone(StaticFileHandler.HTTP_DATE_GMT_TIMEZONE));
+
+		when(context.getRequest().getHeaderCollection()
+				.get(HttpHeaders.Names.IF_MODIFIED_SINCE))
+				.thenReturn(dateFormat.format(date));
+		
 		when(context.getRequest().getUri()).thenReturn("/content/test.txt");
 		
 		assertFalse(handler.handleHttpRequest(context));

@@ -45,7 +45,7 @@ public class FullHttpResponseWrapperTest {
 		assertEquals("value", response.getHeaderCollection().get("name"));
 	}
 	
-	@Test
+	
 	public void testFinishForContent() {
 		ByteBuf byteBuf = Unpooled.buffer();
 		when(nettyResponse.content()).thenReturn(byteBuf);
@@ -55,7 +55,7 @@ public class FullHttpResponseWrapperTest {
 		assertEquals(10, byteBuf.readableBytes());
 	}
 	
-	@Test
+	
 	public void testFinishForCookie() {
 		response = new FullHttpResponseWrapper(new DefaultFullHttpResponse(
 			HttpVersion.HTTP_1_1, 

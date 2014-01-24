@@ -35,7 +35,7 @@ public class RestfulHandler implements HttpHandler {
 		context.getRequest().setRouteMatch(route.match(request));
 		
 		if (null == context.getRequest().getRouteMatch()) {
-			return true;
+			return false;
 		}
 
 		switch (request.getMethod()) {
@@ -59,7 +59,7 @@ public class RestfulHandler implements HttpHandler {
 				throw new MethodNotAllowedException();
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public String getIdentifierName() {

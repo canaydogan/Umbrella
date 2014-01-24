@@ -78,7 +78,7 @@ public class RestfulHandlerTest {
 		when(resource.delete(context)).thenReturn("delete");
 		
 		handler.setResource(resource);		
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).delete(context);
 		verify(context.getResponse(), times(1)).setContent("delete");
 	}
@@ -93,7 +93,7 @@ public class RestfulHandlerTest {
 		when(resource.update(context)).thenReturn("update");
 		
 		handler.setResource(resource);		
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).update(context);
 		verify(context.getResponse(), times(1)).setContent("update");
 	}
@@ -108,7 +108,7 @@ public class RestfulHandlerTest {
 		when(resource.create(context)).thenReturn("create");
 		
 		handler.setResource(resource);		
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).create(context);
 		verify(context.getResponse(), times(1)).setContent("create");
 	}
@@ -123,7 +123,7 @@ public class RestfulHandlerTest {
 		when(resource.getList(context)).thenReturn("list");
 		
 		handler.setResource(resource);		
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).getList(context);
 		verify(context.getResponse(), times(1)).setContent("list");
 	}
@@ -148,7 +148,7 @@ public class RestfulHandlerTest {
 		handler.setIdentifierName("myId");
 		handler.setRoute(route);
 		handler.setResource(resource);		
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).get(context);
 		verify(context.getResponse(), times(1)).setContent("get");
 	}
@@ -173,7 +173,7 @@ public class RestfulHandlerTest {
 		HttpHandlerContext context = newContext(Method.OPTIONS, null);
 		
 		when(handler.getRoute().match(context.getRequest())).thenReturn(null);
-		assertTrue(handler.handleHttpRequest(context));
+		assertFalse(handler.handleHttpRequest(context));
 	}	
 	
 }

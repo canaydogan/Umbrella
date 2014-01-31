@@ -24,6 +24,10 @@ public class RestfulHandler implements HttpHandler {
 	
 	@Override
 	public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
+		if (context.hasException()) {
+			return false;
+		}
+		
 		HttpRequest request = context.getRequest();
 		HttpResponse response = context.getResponse();
 		Route route = getRoute();

@@ -105,6 +105,16 @@ public class HttpRequestWrapper implements HttpRequest {
 	@Override
 	public Map<Object, Object> getData() {
 		return data;
+	}
+
+	@Override
+	public String getUriWithoutQuery() {
+		String uri = getUri();		
+		if (null != uri && uri.indexOf('?') > 0) {
+			return uri.substring(0, uri.indexOf('?'));	
+		}
+		
+		return uri;
 	}	
 
 }

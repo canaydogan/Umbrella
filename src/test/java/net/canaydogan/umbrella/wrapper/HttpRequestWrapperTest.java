@@ -114,4 +114,16 @@ public class HttpRequestWrapperTest {
 		assertTrue(request.isSuccess());
 	}
 	
+	@Test
+	public void testGetUriWithoutQuery() {
+		when(nettyRequest.getUri()).thenReturn("/folder?key=value");		
+		assertEquals("/folder", request.getUriWithoutQuery());
+		
+		when(nettyRequest.getUri()).thenReturn(null);		
+		assertNull(request.getUriWithoutQuery());
+		
+		when(nettyRequest.getUri()).thenReturn("/folder/folder2");		
+		assertEquals("/folder/folder2", request.getUriWithoutQuery());
+	}
+	
 }

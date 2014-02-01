@@ -29,7 +29,7 @@ public class SegmentRoute implements Route {
 	@Override
 	public RouteMatch match(HttpRequest request) {
 		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(request.getUri());
+		Matcher matcher = pattern.matcher(request.getUriWithoutQuery());
 		
 		if (matcher.matches()) {
 			RouteMatch match = new RouteMatch(defaults);

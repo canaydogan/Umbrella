@@ -12,6 +12,8 @@ public interface HttpRequest {
 	
 	public String getUri();
 	
+	public String getUriWithoutQuery();
+	
 	public Method getMethod();
 	
 	public HttpRequest setContent(String content);

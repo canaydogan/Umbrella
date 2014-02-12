@@ -1,7 +1,8 @@
 package net.canaydogan.umbrella.router;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import net.canaydogan.umbrella.HttpRequest;
 import org.junit.Test;
 
 public class SegmentRouteTest extends AbstractRoute {
-	
+		
 	private Object[][] routes = {
 		{
 			"/",
@@ -81,6 +82,33 @@ public class SegmentRouteTest extends AbstractRoute {
 			"/segment1/segment/segment2",
 			null
 		},
+		//Conditional
+		{
+			"/:foo/segment[/:bar]",
+			"/segment1/segment/custom2",
+			new HashMap<String, String>(){{
+				put("foo", "segment1");
+				put("bar", "custom2");
+			}}
+		},
+		{
+			"/:foo/segment[/:bar]",
+			"/segment1/segment",
+			new HashMap<String, String>(){{
+				put("foo", "segment1");
+			}}
+		},
+		{
+			"/:foo/segment[/:bar]",
+			"/segment1/segment",
+			new HashMap<String, String>(){{
+				put("foo", "segment1");
+				put("bar", "default");
+			}},
+			new HashMap<String, String>(){{
+				put("bar", "default");
+			}},
+		}
 	};
 	
 	@Test

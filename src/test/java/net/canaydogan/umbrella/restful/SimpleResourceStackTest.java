@@ -26,7 +26,7 @@ public class SimpleResourceStackTest extends AbstractResourceStack {
 	
 	@Test
 	public void testCreation() {
-		assertEquals("controller", stack.getIdentifierName());
+		assertEquals("resource", stack.getIdentifierName());
 	}
 	
 	@Test
@@ -44,14 +44,14 @@ public class SimpleResourceStackTest extends AbstractResourceStack {
 		stack.addResource("1", resource1);
 		stack.addResource("2", resource2);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		assertEquals("get 1", stack.get(context));
 		assertEquals("get list 1", stack.getList(context));
 		assertEquals("create 1", stack.create(context));
 		assertEquals("update 1", stack.update(context));
 		assertEquals("delete 1", stack.delete(context));
 		
-		context.getRequest().getRouteMatch().setParam("controller", "2");
+		context.getRequest().getRouteMatch().setParam("resource", "2");
 		assertEquals("get 2", stack.get(context));
 		assertEquals("get list 2", stack.getList(context));
 		assertEquals("create 2", stack.create(context));

@@ -30,7 +30,7 @@ class Container {
 
 public class ConditionalResourceStack implements ResourceStack {
 	
-	protected String identifierName = "controller";
+	protected String identifierName = "resource";
 	
 	protected Map<String, Container> stack = new HashMap<>();
 	

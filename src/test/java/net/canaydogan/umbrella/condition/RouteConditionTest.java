@@ -16,7 +16,7 @@ import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 public class RouteConditionTest extends AbstractCondition {
 
 	@Override
-	public Map<Condition, HttpHandlerContext> newValidData() {
+	public Map<Condition, HttpHandlerContext> createValidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();		
 		Route route = mock(Route.class);
 		when(route.match(null)).thenReturn(new RouteMatch());		
@@ -26,7 +26,7 @@ public class RouteConditionTest extends AbstractCondition {
 	}
 
 	@Override
-	public Map<Condition, HttpHandlerContext> newInvalidData() {
+	public Map<Condition, HttpHandlerContext> createInvalidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();		
 		Route route = mock(Route.class);
 		when(route.match(null)).thenReturn(null);

@@ -28,7 +28,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 	
 	@Test
 	public void testDefaultValues() {
-		assertEquals("controller", stack.getIdentifierName());
+		assertEquals("resource", stack.getIdentifierName());
 	}
 	
 	@Test
@@ -43,14 +43,14 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		stack.addResource("1", resource1, condition);
 		stack.addResource("2", resource2, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		assertEquals("get 1", stack.get(context));
 		assertEquals("get list 1", stack.getList(context));
 		assertEquals("create 1", stack.create(context));
 		assertEquals("update 1", stack.update(context));
 		assertEquals("delete 1", stack.delete(context));
 		
-		context.getRequest().getRouteMatch().setParam("controller", "2");
+		context.getRequest().getRouteMatch().setParam("resource", "2");
 		assertEquals("get 2", stack.get(context));
 		assertEquals("get list 2", stack.getList(context));
 		assertEquals("create 2", stack.create(context));
@@ -72,7 +72,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		Resource resource1 = newResource(context, "1");		
 		stack.addResource("1", resource1, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		stack.get(context);
 	}
 	
@@ -86,7 +86,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		Resource resource1 = newResource(context, "1");		
 		stack.addResource("1", resource1, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		stack.getList(context);
 	}
 	
@@ -100,7 +100,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		Resource resource1 = newResource(context, "1");		
 		stack.addResource("1", resource1, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		stack.create(context);
 	}
 	
@@ -114,7 +114,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		Resource resource1 = newResource(context, "1");		
 		stack.addResource("1", resource1, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		stack.update(context);
 	}
 	
@@ -128,7 +128,7 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 		Resource resource1 = newResource(context, "1");		
 		stack.addResource("1", resource1, condition);
 		
-		context.getRequest().getRouteMatch().setParam("controller", "1");
+		context.getRequest().getRouteMatch().setParam("resource", "1");
 		stack.delete(context);
 	}
 	
@@ -138,31 +138,31 @@ public class ConditionalResourceStackTest extends AbstractResourceStack {
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testGetWithUndefinedResourceName() throws Exception {
-		context.getRequest().getRouteMatch().setParam("controlller", "undefined");
+		context.getRequest().getRouteMatch().setParam("resource", "undefined");
 		stack.get(context);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testGeListtWithUndefinedResourceName() throws Exception {
-		context.getRequest().getRouteMatch().setParam("controlller", "undefined");
+		context.getRequest().getRouteMatch().setParam("resource", "undefined");
 		stack.getList(context);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testCreateWithUndefinedResourceName() throws Exception {
-		context.getRequest().getRouteMatch().setParam("controlller", "undefined");
+		context.getRequest().getRouteMatch().setParam("resource", "undefined");
 		stack.create(context);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testUpdateWithUndefinedResourceName() throws Exception {
-		context.getRequest().getRouteMatch().setParam("controlller", "undefined");
+		context.getRequest().getRouteMatch().setParam("resource", "undefined");
 		stack.update(context);
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void testDeleteWithUndefinedResourceName() throws Exception {
-		context.getRequest().getRouteMatch().setParam("controlller", "undefined");
+		context.getRequest().getRouteMatch().setParam("resource", "undefined");
 		stack.delete(context);
 	}
 	

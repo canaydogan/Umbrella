@@ -11,12 +11,12 @@ import org.junit.Test;
 
 abstract public class AbstractCondition {
 
-	abstract public Map<Condition, HttpHandlerContext> newValidData();
-	abstract public Map<Condition, HttpHandlerContext> newInvalidData();
+	abstract public Map<Condition, HttpHandlerContext> createValidData();
+	abstract public Map<Condition, HttpHandlerContext> createInvalidData();
 	
 	@Test
 	public void testIsValidForSuccess() {
-		Map<Condition, HttpHandlerContext> data = newValidData();
+		Map<Condition, HttpHandlerContext> data = createValidData();
 		
 		for (Condition condition : data.keySet()) {
 			assertTrue(condition.isValid(data.get(condition)));
@@ -25,7 +25,7 @@ abstract public class AbstractCondition {
 	
 	@Test
 	public void testIsValidForUnsuccess() {
-		Map<Condition, HttpHandlerContext> data = newInvalidData();
+		Map<Condition, HttpHandlerContext> data = createInvalidData();
 		
 		for (Condition condition : data.keySet()) {
 			assertFalse(condition.isValid(data.get(condition)));

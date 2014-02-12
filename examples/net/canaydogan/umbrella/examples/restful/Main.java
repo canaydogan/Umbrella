@@ -18,8 +18,7 @@ public class Main {
 		resourceStack.addResource("comments", new CommentResource());
 		
 		RouteStack routeStack = new SimpleRouteStack();		
-		routeStack.addRoute("controllerplusid", new SegmentRoute("/:controller/:id"));
-		routeStack.addRoute("justcontroller", new SegmentRoute("/:controller"));		
+		routeStack.addRoute("restroute", new SegmentRoute("/:resource[/:id]"));
 		
 		HttpHandler restfulHandler = new RestfulHandler(routeStack, resourceStack);
 

@@ -38,7 +38,7 @@ public class SimpleConditionStackTest extends AbstractCondition {
 	}
 
 	@Override
-	public Map<Condition, HttpHandlerContext> newValidData() {
+	public Map<Condition, HttpHandlerContext> createValidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();
 		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		
@@ -56,7 +56,7 @@ public class SimpleConditionStackTest extends AbstractCondition {
 	}
 
 	@Override
-	public Map<Condition, HttpHandlerContext> newInvalidData() {
+	public Map<Condition, HttpHandlerContext> createInvalidData() {
 		Map<Condition, HttpHandlerContext> data = new HashMap<>();
 		HttpHandlerContext context = new DefaultHttpHandlerContext(null, null);
 		

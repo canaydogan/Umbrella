@@ -8,7 +8,7 @@ import net.canaydogan.umbrella.restful.exception.ResourceNotFoundException;
 
 public class SimpleResourceStack implements ResourceStack {
 	
-	protected String identifierName = "controller";
+	protected String identifierName = "resource";
 	
 	protected Map<String, Resource> stack = new HashMap<>();
 	

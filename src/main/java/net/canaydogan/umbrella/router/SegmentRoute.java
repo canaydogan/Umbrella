@@ -69,7 +69,7 @@ public class SegmentRoute implements Route {
 		
 		route = Pattern.compile("(\\[.*\\])")
 				.matcher(route)
-				.replaceAll("/?+([^/.]{1,})?");
+				.replaceAll("/?([^/.]{1,})?");
 		
 		route = Pattern.compile("(:[a-z]*)")
 					.matcher(route)

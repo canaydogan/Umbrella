@@ -126,7 +126,7 @@ public class SegmentRouteTest extends AbstractRoute {
 		for (Object[] route : routes) {
 			Route router;
 			if (4 == route.length) {
-				router = new SegmentRoute((String) route[0], (Map<String, String>) route[3]);	
+				router = new SegmentRoute((Map<String, String>) route[3],(String) route[0]);	
 			} else {
 				router = new SegmentRoute((String) route[0]);
 			}

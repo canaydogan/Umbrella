@@ -1,6 +1,7 @@
 package net.canaydogan.umbrella.router;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -12,42 +13,48 @@ import net.canaydogan.umbrella.HttpRequest;
 
 public class SegmentRoute implements Route {
 
-	protected Set<String> parts;
+	protected Set<Set<String>> parts = new HashSet<>();
 	protected Map<String, String> defaults;
-	protected Pattern pattern;
+	protected Set<Pattern> patterns = new HashSet<>();
 
-	public SegmentRoute(String route, Map<String, String> defaults) {
-		this.parts = parseRouteDefinition(route);
+	public SegmentRoute(Map<String, String> defaults, String... routes) {
 		this.defaults = defaults;
-		this.pattern = Pattern.compile(buildRegex(route));
+		for (String route : routes) {
+			this.parts.add(parseRouteDefinition(route));
+			this.patterns.add(Pattern.compile(buildRegex(route)));
+		}
 	}
 
-	public SegmentRoute(String route) {
-		this(route, new HashMap<String, String>());
+	public SegmentRoute(String... route) {
+		this(new HashMap<String, String>(), route);
 	}
 
 	@Override
 	public RouteMatch match(HttpRequest request) {
-		Matcher matcher = pattern.matcher(request.getUriWithoutQuery());
+		Iterator<Set<String>> partsIterator = parts.iterator();
+		
+		for (Pattern pattern : patterns) {
+			Matcher matcher = pattern.matcher(request.getUriWithoutQuery());
 
-		if (matcher.matches()) {
-			RouteMatch match = new RouteMatch(defaults);
-			Iterator<String> partIterator = parts.iterator();
+			if (matcher.matches()) {
+				RouteMatch match = new RouteMatch(defaults);
+				Iterator<String> partIterator = partsIterator.next().iterator();
 
-			for (int i = 1; i <= matcher.groupCount(); i++) {
-				String value = matcher.group(i);
-				String key = partIterator.next();
-				
-				if (null == value && defaults.containsKey(key)) {
-					value = defaults.get(key);
-				}				
-				if (null != value) {
-					match.setParam(key, value);	
-				}				
-			}
+				for (int i = 1; i <= matcher.groupCount(); i++) {
+					String value = matcher.group(i);
+					String key = partIterator.next();
+					
+					if (null == value && defaults.containsKey(key)) {
+						value = defaults.get(key);
+					}				
+					if (null != value) {
+						match.setParam(key, value);	
+					}				
+				}
 
-			return match;
-		}
+				return match;
+			}	
+		}		
 
 		return null;
 	}

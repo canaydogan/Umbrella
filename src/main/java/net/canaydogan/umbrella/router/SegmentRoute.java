@@ -60,7 +60,7 @@ public class SegmentRoute implements Route {
 	}
 
 	protected Set<String> parseRouteDefinition(String route) {
-		Pattern pattern = Pattern.compile(":([a-z0-9]*)");
+		Pattern pattern = Pattern.compile(":([a-zA-Z0-9]*)");
 		Matcher matcher = pattern.matcher(route);
 		Set<String> parts = new LinkedHashSet<>();
 
@@ -78,7 +78,7 @@ public class SegmentRoute implements Route {
 				.matcher(route)
 				.replaceAll("/?([^/.]+)?");
 		
-		route = Pattern.compile("(:[a-z]*)")
+		route = Pattern.compile("(:[a-zA-Z0-9]*)")
 					.matcher(route)
 					.replaceAll("([^/.]+){1}");
 

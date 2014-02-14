@@ -118,6 +118,14 @@ public class SegmentRouteTest extends AbstractRoute {
 				put("foo", "segment1");					
 				put("bar", "segment2");
 			}}
+		},		
+		{
+			"/api/1/users/:userId/:resource[/:id]",
+			"/api/1/users/1/myresource",
+			new HashMap<String, String>(){{
+				put("userId", "1");					
+				put("resource", "myresource");
+			}}
 		}
 	};
 	

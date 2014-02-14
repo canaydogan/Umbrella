@@ -1,11 +1,17 @@
 package net.canaydogan.umbrella.handler;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
-import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.HttpRequest.Method;
+import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
 import net.canaydogan.umbrella.restful.Resource;
@@ -27,7 +33,7 @@ public class RestfulHandlerTest {
 		Route route = mock(Route.class);		
 		when(route.match(any(HttpRequest.class))).thenReturn(routeMatch);
 		
-		handler = new RestfulHandler(route, null);		
+		handler = new RestfulHandler(null);		
 	}
 	
 	public HttpHandlerContext newContext(Method method) {
@@ -56,15 +62,12 @@ public class RestfulHandlerTest {
 	
 	@Test
 	public void testSetterAndGetter() {
-		Route route = mock(Route.class);
 		Resource resource = mock(Resource.class);
 		
 		handler.setIdentifierName("new name");
-		handler.setRoute(route);
 		handler.setResource(resource);
 		
 		assertEquals("new name", handler.getIdentifierName());
-		assertSame(route, handler.getRoute());
 		assertSame(resource, handler.getResource());
 	}
 	
@@ -146,7 +149,6 @@ public class RestfulHandlerTest {
 		when(route.match(context.getRequest())).thenReturn(routeMatch);
 		
 		handler.setIdentifierName("myId");
-		handler.setRoute(route);
 		handler.setResource(resource);		
 		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).get(context);
@@ -164,16 +166,8 @@ public class RestfulHandlerTest {
 	public void testHandleHttpRequestWithEmptyRoute() throws Exception {
 		HttpHandlerContext context = newContext(Method.GET);
 		
-		handler.setRoute(null);		
+		when(context.getRequest().getRouteMatch()).thenReturn(null);		
 		handler.handleHttpRequest(context);
 	}
-	
-	@Test()
-	public void testHandleHttpRequestForNullRouteMatch() throws Exception {
-		HttpHandlerContext context = newContext(Method.OPTIONS, null);
-		
-		when(handler.getRoute().match(context.getRequest())).thenReturn(null);
-		assertFalse(handler.handleHttpRequest(context));
-	}	
 	
 }

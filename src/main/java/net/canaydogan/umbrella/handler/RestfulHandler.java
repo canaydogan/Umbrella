@@ -7,7 +7,6 @@ import net.canaydogan.umbrella.HttpResponse;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
 import net.canaydogan.umbrella.restful.Resource;
-import net.canaydogan.umbrella.router.Route;
 
 public class RestfulHandler implements HttpHandler {
 
@@ -15,10 +14,7 @@ public class RestfulHandler implements HttpHandler {
 	
 	protected Resource resource;
 	
-	protected Route route;
-	
-	public RestfulHandler(Route route, Resource resource) {
-		setRoute(route);
+	public RestfulHandler(Resource resource) {
 		setResource(resource);
 	}
 	
@@ -30,13 +26,10 @@ public class RestfulHandler implements HttpHandler {
 		
 		HttpRequest request = context.getRequest();
 		HttpResponse response = context.getResponse();
-		Route route = getRoute();
 		
-		if (null == route) {
+		if (null == context.getRequest().getRouteMatch()) {
 			throw new ConfigurationException();
 		}
-		
-		context.getRequest().setRouteMatch(route.match(request));
 		
 		if (null == context.getRequest().getRouteMatch()) {
 			return false;
@@ -85,13 +78,5 @@ public class RestfulHandler implements HttpHandler {
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
-
-	public Route getRoute() {
-		return route;
-	}
-
-	public void setRoute(Route route) {
-		this.route = route;
-	}	
 
 }

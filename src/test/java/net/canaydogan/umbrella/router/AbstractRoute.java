@@ -11,9 +11,9 @@ abstract class AbstractRoute {
 	}
 
 	public HttpRequest buildRequest(String path) {
-		HttpRequest request = mock(HttpRequest.class);		
-		when(request.getUri()).thenReturn("http://example.com" + path);
-		when(request.getUriWithoutQuery()).thenReturn("http://example.com" + path);
+		HttpRequest request = mock(HttpRequest.class);
+		when(request.getUri()).thenReturn(path);
+		when(request.getUriWithoutQuery()).thenReturn(path);
 		
 		return request;
 	}

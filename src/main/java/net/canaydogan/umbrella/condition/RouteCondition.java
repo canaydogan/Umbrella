@@ -2,6 +2,7 @@ package net.canaydogan.umbrella.condition;
 
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.router.Route;
+import net.canaydogan.umbrella.router.RouteMatch;
 
 public class RouteCondition implements Condition {
 
@@ -13,7 +14,10 @@ public class RouteCondition implements Condition {
 	
 	@Override
 	public boolean isValid(HttpHandlerContext context) {
-		if (null != route.match(context.getRequest())) {
+		RouteMatch routeMatch;
+		
+		if (null != (routeMatch = route.match(context.getRequest()))) {
+			context.getRequest().setRouteMatch(routeMatch);			
 			return true;
 		}
 		

@@ -61,12 +61,7 @@ public class SegmentRouteTest extends AbstractRoute {
 				put("foo", "default");
 			}}
 		},
-		//Unmatching Routes
-		{
-			"/",
-			"",
-			null
-		},		
+		//Unmatching Routes		
 		{
 			"/:foo",
 			"/",
@@ -82,7 +77,7 @@ public class SegmentRouteTest extends AbstractRoute {
 			"/segment1/segment/segment2",
 			null
 		},
-		//Conditional
+		//Conditional		
 		{
 			"/:foo/segment[/:bar]",
 			"/segment1/segment/custom2",
@@ -92,15 +87,15 @@ public class SegmentRouteTest extends AbstractRoute {
 			}}
 		},
 		{
-			"/:foo/segment[/:bar]",
-			"/segment1/segment",
+			"/:foo/s2[/:bar]",
+			"/segment1/s2",
 			new HashMap<String, String>(){{
 				put("foo", "segment1");
 			}}
 		},
 		{
-			"/:foo/segment[/:bar]",
-			"/segment1/segment",
+			"/:foo/s1[/:bar]",
+			"/segment1/s1",
 			new HashMap<String, String>(){{
 				put("foo", "segment1");
 				put("bar", "default");
@@ -108,6 +103,21 @@ public class SegmentRouteTest extends AbstractRoute {
 			new HashMap<String, String>(){{
 				put("bar", "default");
 			}},
+		},		
+		{
+			"/:foo[/:bar]",
+			"/segment1",
+			new HashMap<String, String>(){{
+				put("foo", "segment1");					
+			}}
+		},		
+		{
+			"/:foo[/:bar]",
+			"/segment1/segment2",
+			new HashMap<String, String>(){{
+				put("foo", "segment1");					
+				put("bar", "segment2");
+			}}
 		}
 	};
 	

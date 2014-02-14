@@ -69,13 +69,13 @@ public class SegmentRoute implements Route {
 		
 		route = Pattern.compile("(\\[.*\\])")
 				.matcher(route)
-				.replaceAll("/?([^/.]{1,})?");
+				.replaceAll("/?([^/.]+)?");
 		
 		route = Pattern.compile("(:[a-z]*)")
 					.matcher(route)
-					.replaceAll("([^/.]{1,})");
-		
-		return ".*" + route + '$';
+					.replaceAll("([^/.]+){1}");
+
+		return route;
 	}
 
 }

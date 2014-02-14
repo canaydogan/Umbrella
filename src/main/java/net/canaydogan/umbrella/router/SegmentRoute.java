@@ -1,7 +1,6 @@
 package net.canaydogan.umbrella.router;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -13,9 +12,9 @@ import net.canaydogan.umbrella.HttpRequest;
 
 public class SegmentRoute implements Route {
 
-	protected Set<Set<String>> parts = new HashSet<>();
+	protected Set<Set<String>> parts = new LinkedHashSet<>();
 	protected Map<String, String> defaults;
-	protected Set<Pattern> patterns = new HashSet<>();
+	protected Set<Pattern> patterns = new LinkedHashSet<>();
 
 	public SegmentRoute(Map<String, String> defaults, String... routes) {
 		this.defaults = defaults;
@@ -35,10 +34,10 @@ public class SegmentRoute implements Route {
 		
 		for (Pattern pattern : patterns) {
 			Matcher matcher = pattern.matcher(request.getUriWithoutQuery());
+			Iterator<String> partIterator = partsIterator.next().iterator();
 
 			if (matcher.matches()) {
-				RouteMatch match = new RouteMatch(defaults);
-				Iterator<String> partIterator = partsIterator.next().iterator();
+				RouteMatch match = new RouteMatch(defaults);				
 
 				for (int i = 1; i <= matcher.groupCount(); i++) {
 					String value = matcher.group(i);

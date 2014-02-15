@@ -29,5 +29,17 @@ public class RouteMatch {
 		
 		return this;
 	}
-
+	
+	public boolean contains(String name) {
+		return params.containsKey(name);
+	}
+	
+	public Integer getInt(String name) {
+		try {
+			return Integer.parseInt(get(name));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 }

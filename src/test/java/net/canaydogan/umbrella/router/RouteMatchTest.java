@@ -51,5 +51,21 @@ public class RouteMatchTest {
 		assertEquals("value1", routeMatch.get("key1"));
 		assertEquals("value2", routeMatch.get("key2"));
 	}
+	
+	@Test
+	public void testContains() {
+		assertFalse(routeMatch.contains("key"));
+		routeMatch.set("key", "value");	
+		assertTrue(routeMatch.contains("key"));
+	}
+	
+	@Test
+	public void testGetInt() {
+		routeMatch.set("int", "1");
+		assertEquals((Integer) 1, routeMatch.getInt("int"));
+		
+		routeMatch.set("int", "1a");
+		assertNull(routeMatch.getInt("int"));
+	}
 
 }

@@ -68,7 +68,7 @@ public class RestfulHandler implements HttpHandler {
 	}
 	
 	protected String getIdentifier(HttpHandlerContext context) {
-		return context.getRequest().getRouteMatch().getParam(getIdentifierName());
+		return context.getRequest().getRouteMatch().get(getIdentifierName());
 	}
 
 	public Resource getResource() {

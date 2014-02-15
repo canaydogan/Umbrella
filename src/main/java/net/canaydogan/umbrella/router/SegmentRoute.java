@@ -47,7 +47,7 @@ public class SegmentRoute implements Route {
 						value = defaults.get(key);
 					}				
 					if (null != value) {
-						match.setParam(key, value);	
+						match.set(key, value);	
 					}				
 				}
 

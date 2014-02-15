@@ -135,7 +135,7 @@ public class RestfulHandlerTest {
 	public void testHandleHttpRequestForGet() throws Exception {
 		//Route match
 		RouteMatch routeMatch = new RouteMatch();
-		routeMatch.setParam("myId", "12");
+		routeMatch.set("myId", "12");
 		
 		//Context
 		HttpHandlerContext context = newContext(Method.GET, routeMatch);					

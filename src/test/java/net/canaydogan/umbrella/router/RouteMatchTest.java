@@ -18,14 +18,14 @@ public class RouteMatchTest {
 	
 	@Test
 	public void testSetAndGetParam() {
-		routeMatch.setParam("name", "value");
+		routeMatch.set("name", "value");
 		
-		assertEquals("value", routeMatch.getParam("name"));
+		assertEquals("value", routeMatch.get("name"));
 	}
 	
 	@Test
 	public void testGetParamForNull() {
-		assertNull(routeMatch.getParam("name"));
+		assertNull(routeMatch.get("name"));
 	}
 	
 	@Test
@@ -34,10 +34,10 @@ public class RouteMatchTest {
 		params.put("key1", "value1");
 		params.put("key2", "value2");
 		
-		routeMatch.setParams(params);
+		routeMatch.setAll(params);
 		
-		assertEquals("value1", routeMatch.getParam("key1"));
-		assertEquals("value2", routeMatch.getParam("key2"));
+		assertEquals("value1", routeMatch.get("key1"));
+		assertEquals("value2", routeMatch.get("key2"));
 	}
 	
 	@Test
@@ -48,8 +48,8 @@ public class RouteMatchTest {
 				
 		routeMatch = new RouteMatch(params);
 		
-		assertEquals("value1", routeMatch.getParam("key1"));
-		assertEquals("value2", routeMatch.getParam("key2"));
+		assertEquals("value1", routeMatch.get("key1"));
+		assertEquals("value2", routeMatch.get("key2"));
 	}
 
 }

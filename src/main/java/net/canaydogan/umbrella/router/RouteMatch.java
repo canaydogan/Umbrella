@@ -10,21 +10,21 @@ public class RouteMatch {
 	public RouteMatch() {}
 	
 	public RouteMatch(Map<String, String> params) {
-		setParams(params);
+		setAll(params);
 	}
 	
-	public RouteMatch setParam(String name, String value) {
+	public RouteMatch set(String name, String value) {
 		params.put(name, value);
 		return this;		
 	}
 
-	public String getParam(String name) {
+	public String get(String name) {
 		return params.get(name);
 	}
 
-	public RouteMatch setParams(Map<String, String> params) {
+	public RouteMatch setAll(Map<String, String> params) {
 		for (String name : params.keySet()) {
-			setParam(name, params.get(name));
+			set(name, params.get(name));
 		}
 		
 		return this;

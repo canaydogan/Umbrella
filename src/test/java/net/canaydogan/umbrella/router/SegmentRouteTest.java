@@ -149,7 +149,7 @@ public class SegmentRouteTest extends AbstractRoute {
 				
 				Map<String, String> params = (Map<String, String>) route[2];
 				for (String name : params.keySet()) {
-					assertEquals(params.get(name), match.getParam(name));
+					assertEquals(params.get(name), match.get(name));
 				}
 			}
 		}

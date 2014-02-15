@@ -45,7 +45,7 @@ public class ConditionalResourceStack implements ResourceStack {
 	}
 	
 	protected String getIdentifier(HttpHandlerContext context) {		
-		return context.getRequest().getRouteMatch().getParam(getIdentifierName());
+		return context.getRequest().getRouteMatch().get(getIdentifierName());
 	}
 	
 	protected Resource findResource(HttpHandlerContext context) throws Exception {

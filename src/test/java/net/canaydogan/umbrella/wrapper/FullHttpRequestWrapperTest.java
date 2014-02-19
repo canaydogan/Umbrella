@@ -1,6 +1,13 @@
 package net.canaydogan.umbrella.wrapper;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import io.netty.handler.codec.DecoderResult;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import net.canaydogan.umbrella.HttpRequest;
@@ -8,24 +15,21 @@ import net.canaydogan.umbrella.HttpRequest;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-
-public class HttpRequestWrapperTest {
+public class FullHttpRequestWrapperTest {
 
 	protected HttpRequest request;
 	
-	protected io.netty.handler.codec.http.HttpRequest nettyRequest;
+	protected FullHttpRequest nettyRequest;
 	
 	@Before
 	public void setUp() {
-		nettyRequest = mock(io.netty.handler.codec.http.HttpRequest.class);		
+		nettyRequest = mock(FullHttpRequest.class);		
 		when(nettyRequest.getUri()).thenReturn("/?param1=value");
 		
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);		
 		when(nettyRequest.headers()).thenReturn(httpHeaders);
 		
-		request = new HttpRequestWrapper(nettyRequest);		
+		request = new FullHttpRequestWrapper(nettyRequest);		
 	}
 	
 	@Test
@@ -82,7 +86,7 @@ public class HttpRequestWrapperTest {
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);
 		when(nettyRequest.headers()).thenReturn(httpHeaders);
 		when(httpHeaders.get("name")).thenReturn("value");
-		HttpRequest request = new HttpRequestWrapper(nettyRequest);
+		HttpRequest request = new FullHttpRequestWrapper(nettyRequest);
 		
 		assertEquals("value", request.getHeaderCollection().get("name"));
 	}
@@ -97,7 +101,7 @@ public class HttpRequestWrapperTest {
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);
 		when(httpHeaders.get(HttpHeaders.Names.COOKIE)).thenReturn("cookie1=value1");		
 		when(nettyRequest.headers()).thenReturn(httpHeaders);		
-		HttpRequest request = new HttpRequestWrapper(nettyRequest);
+		HttpRequest request = new FullHttpRequestWrapper(nettyRequest);
 		
 		assertEquals("value1", request.getCookieCollection().get("cookie1").getValue());
 	}

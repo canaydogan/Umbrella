@@ -1,11 +1,14 @@
 package net.canaydogan.umbrella.wrapper;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.util.CharsetUtil;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import net.canaydogan.umbrella.FileUploadCollection;
 import net.canaydogan.umbrella.HttpCookieCollection;
 import net.canaydogan.umbrella.HttpHeaderCollection;
@@ -15,9 +18,9 @@ import net.canaydogan.umbrella.router.RouteMatch;
 import net.canaydogan.umbrella.util.DefaultFileUploadCollection;
 import net.canaydogan.umbrella.util.DefaultHttpCookieCollection;
 
-public class HttpRequestWrapper implements HttpRequest {
+public class FullHttpRequestWrapper implements HttpRequest {
 	
-	protected io.netty.handler.codec.http.HttpRequest request;
+	protected FullHttpRequest request;
 	
 	protected String content;
 	
@@ -35,7 +38,9 @@ public class HttpRequestWrapper implements HttpRequest {
 	
 	protected HttpPostRequestDecoder postRequestDecoder;
 	
-	public HttpRequestWrapper(io.netty.handler.codec.http.HttpRequest request) {
+	protected boolean initializedContent = false;
+	
+	public FullHttpRequestWrapper(FullHttpRequest request) {
 		this.request = request;
 		headerCollection = new HttpHeadersWrapper(request.headers());
 		query = new QueryStringDecoderWrapper(new QueryStringDecoder(getUri()));
@@ -63,13 +68,12 @@ public class HttpRequestWrapper implements HttpRequest {
 	}
 
 	@Override
-	public HttpRequest setContent(String content) {
-		this.content = content;
-		return this;
-	}
-
-	@Override
 	public String getContent() {
+		if (!initializedContent) {
+			initializedContent = true;
+			content = request.content().toString(CharsetUtil.UTF_8);
+		}
+		
 		return content;
 	}
 	

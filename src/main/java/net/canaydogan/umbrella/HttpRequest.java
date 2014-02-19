@@ -16,8 +16,6 @@ public interface HttpRequest {
 	
 	public Method getMethod();
 	
-	public HttpRequest setContent(String content);
-	
 	public String getContent();
 	
 	public HttpHeaderCollection getHeaderCollection();

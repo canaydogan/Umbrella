@@ -16,7 +16,6 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
@@ -27,12 +26,11 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.handler.stream.ChunkedFile;
-import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import net.canaydogan.umbrella.util.DefaultHttpHandlerContext;
 import net.canaydogan.umbrella.util.DefaultHttpResponse;
 import net.canaydogan.umbrella.util.HttpResponseBuilder;
-import net.canaydogan.umbrella.wrapper.HttpRequestWrapper;
+import net.canaydogan.umbrella.wrapper.FullHttpRequestWrapper;
 import net.canaydogan.umbrella.wrapper.WebSocketChannelHandlerContextWrapper;
 
 class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
@@ -109,12 +107,6 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 	protected void handleHttpRequest(ChannelHandlerContext ctx,
 			FullHttpRequest request) throws Exception {
 		context = buildHttpHandlerContext(request);
-
-		//TODO convert this to lazy-loading
-		if (request.content().isReadable()) {
-			context.getRequest().setContent(
-					request.content().toString(CharsetUtil.UTF_8));
-		}
 
 		try {
 			httpHandler.handleHttpRequest(context);
@@ -194,8 +186,8 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	private static HttpHandlerContext buildHttpHandlerContext(
-			HttpRequest nettyRequest) {
-		return new DefaultHttpHandlerContext(new HttpRequestWrapper(
+			FullHttpRequest nettyRequest) {
+		return new DefaultHttpHandlerContext(new FullHttpRequestWrapper(
 				nettyRequest), new DefaultHttpResponse());
 	}
 

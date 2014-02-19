@@ -26,6 +26,8 @@ public interface HttpRequest {
 	
 	public HttpCookieCollection getCookieCollection();
 	
+	public FileUploadCollection getFileUploadCollection();
+	
 	public boolean isSuccess();
 	
 	public RouteMatch getRouteMatch();
@@ -38,6 +40,8 @@ public interface HttpRequest {
 	 * This is general purpose data holder. Use it for what you want
 	 */
 	public Map<Object, Object> getData();
+	
+	public void destroy();
 	
 		
 }

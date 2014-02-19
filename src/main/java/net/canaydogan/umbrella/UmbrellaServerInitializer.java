@@ -38,8 +38,7 @@ class UmbrellaServerInitializer extends ChannelInitializer<SocketChannel>  {
         
         // Remove the following line if you don't want automatic content compression.
         //p.addLast("deflater", new HttpContentCompressor());        
-        p.addLast("handler", new UmbrellaServerHandler(httpHandler));
-        
+        p.addLast("handler", new UmbrellaServerHandler(httpHandler));        
 	}
 
 }

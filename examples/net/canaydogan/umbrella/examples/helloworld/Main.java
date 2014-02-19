@@ -11,7 +11,7 @@ class Main {
 		UmbrellaServer server = new UmbrellaServer();
 		server.setHttpHandler(new HttpHandler() {			
 			@Override
-			public boolean handleHttpRequest(HttpHandlerContext context) throws Exception { 
+			public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
 				context.getResponse().setContent("Hello world.");
 				return true;
 			}

@@ -13,6 +13,8 @@ public class UmbrellaServer {
 	
 	protected HttpHandler httpHandler;
 	
+	protected int maxContentLength = 65536;
+	
 	public UmbrellaServer run() throws InterruptedException {
         // Configure the server.
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -22,7 +24,7 @@ public class UmbrellaServer {
             b.option(ChannelOption.SO_BACKLOG, 1024);
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
-             .childHandler(new UmbrellaServerInitializer(getHttpHandler()));
+             .childHandler(new UmbrellaServerInitializer(getHttpHandler(), maxContentLength));
 
             Channel ch = b.bind(getPort()).sync().channel();
             ch.closeFuture().sync();
@@ -48,6 +50,14 @@ public class UmbrellaServer {
 
 	public void setHttpHandler(HttpHandler httpHandler) {
 		this.httpHandler = httpHandler;
+	}
+
+	public int getMaxContentLength() {
+		return maxContentLength;
+	}
+
+	public void setMaxContentLength(int maxContentLength) {
+		this.maxContentLength = maxContentLength;
 	}
 	
 }

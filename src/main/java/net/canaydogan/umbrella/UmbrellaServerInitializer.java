@@ -12,8 +12,11 @@ class UmbrellaServerInitializer extends ChannelInitializer<SocketChannel>  {
 	
 	protected HttpHandler httpHandler;
 	
-	public UmbrellaServerInitializer(HttpHandler httpHandler) {
+	protected int maxContentLength;
+	
+	public UmbrellaServerInitializer(HttpHandler httpHandler, int maxContentLength) {
 		this.httpHandler = httpHandler;
+		this.maxContentLength = maxContentLength;
 	}
 
 	@Override
@@ -28,7 +31,7 @@ class UmbrellaServerInitializer extends ChannelInitializer<SocketChannel>  {
 
         p.addLast("decoder", new HttpRequestDecoder());
         
-        p.addLast("aggregator", new HttpObjectAggregator(65536));
+        p.addLast("aggregator", new HttpObjectAggregator(maxContentLength));
         
         // Uncomment the following line if you don't want to handle HttpChunks.
         //p.addLast("aggregator", new HttpObjectAggregator(1048576));

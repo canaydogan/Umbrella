@@ -1,17 +1,11 @@
 package net.canaydogan.umbrella.wrapper;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-
-import java.net.HttpCookie;
-import java.util.List;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -4,6 +4,7 @@ import net.canaydogan.umbrella.HttpHandler;
 import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpResponse;
+import net.canaydogan.umbrella.HttpResponse.Status;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
 import net.canaydogan.umbrella.restful.Resource;
@@ -44,6 +45,7 @@ public class RestfulHandler implements HttpHandler {
 				}				
 				break;					
 			case POST:
+				response.setStatus(Status.CREATED);
 				response.setContent(resource.create(context));
 				break;
 			case PUT:

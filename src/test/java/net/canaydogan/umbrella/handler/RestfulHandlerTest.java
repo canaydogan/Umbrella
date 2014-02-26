@@ -12,6 +12,7 @@ import net.canaydogan.umbrella.HttpHandlerContext;
 import net.canaydogan.umbrella.HttpRequest;
 import net.canaydogan.umbrella.HttpRequest.Method;
 import net.canaydogan.umbrella.HttpResponse;
+import net.canaydogan.umbrella.HttpResponse.Status;
 import net.canaydogan.umbrella.handler.exception.ConfigurationException;
 import net.canaydogan.umbrella.handler.exception.MethodNotAllowedException;
 import net.canaydogan.umbrella.restful.Resource;
@@ -114,6 +115,7 @@ public class RestfulHandlerTest {
 		assertFalse(handler.handleHttpRequest(context));
 		verify(resource, times(1)).create(context);
 		verify(context.getResponse(), times(1)).setContent("create");
+		verify(context.getResponse(), times(1)).setStatus(Status.CREATED);
 	}
 	
 	@Test

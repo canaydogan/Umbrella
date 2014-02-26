@@ -131,12 +131,16 @@ public class FullHttpRequestWrapper implements HttpRequest {
 	public FileUploadCollection getFileUploadCollection() {
 		return fileUploadCollection;
 	}
-
+	
 	@Override
-	public void destroy() {
-		if (null != postRequestDecoder) {
+	public boolean release() {
+		if (null != postRequestDecoder) {			
 			postRequestDecoder.destroy();
+			postRequestDecoder = null;
 		}
+		request.release();
+		request = null;
+		return false;
 	}
 	
 }

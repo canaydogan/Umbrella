@@ -39,7 +39,6 @@ public interface HttpRequest {
 	 */
 	public Map<Object, Object> getData();
 	
-	public void destroy();
-	
+	public boolean release();	
 		
 }

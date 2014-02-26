@@ -40,4 +40,6 @@ public interface HttpResponse {
 	
 	public Status getStatus();
 	
+	public boolean release();
+	
 }

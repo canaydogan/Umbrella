@@ -57,5 +57,10 @@ public class FullHttpResponseWrapper implements HttpResponse {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean release() {
+		return false;
+	}
 
 }

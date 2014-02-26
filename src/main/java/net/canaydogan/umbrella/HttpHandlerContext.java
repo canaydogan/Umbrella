@@ -12,4 +12,6 @@ public interface HttpHandlerContext {
 
 	public boolean hasException();
 	
+	public boolean release();
+	
 }

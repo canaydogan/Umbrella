@@ -46,4 +46,9 @@ public class DefaultHttpResponse implements HttpResponse {
 		return status;
 	}
 	
+	@Override
+	public boolean release() {
+		return false;
+	}
+	
 }

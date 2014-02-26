@@ -4,15 +4,12 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
 import static io.netty.handler.codec.http.HttpResponseStatus.NOT_MODIFIED;
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.DefaultFileRegion;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -61,8 +58,8 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
 	private void writeStandardResponse(ChannelHandlerContext ctx) {
 		boolean keepAlive = context.getRequest().isKeepAlive();
-		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
-		HttpResponseBuilder.build(response, context.getResponse());
+		FullHttpResponse response = HttpResponseBuilder
+				.createFullHttpResponse(context.getResponse());
 
 		if (keepAlive) {
 			response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
@@ -88,10 +85,9 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 		}
 
 		// Write the initial line and the header.
-		ctx.write(HttpResponseBuilder.build(
-				new io.netty.handler.codec.http.DefaultHttpResponse(HTTP_1_1,
-						OK), context.getResponse()));
+		ctx.write(HttpResponseBuilder.createDefaultHttpResponse(context.getResponse()));
 
+		// Write file
 		ctx.write(context.getResponse().getContent(),
 				ctx.newProgressivePromise());
 		context.getResponse().setContent(null);
@@ -121,9 +117,9 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			context.getRequest().destroy();
+			context.release();
+			context = null;
 		}
-
 	}
 
 	private void handshake(ChannelHandlerContext ctx, FullHttpRequest request)
@@ -132,8 +128,8 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 				getWebSocketLocation(context), null, false);
 		WebSocketServerHandshaker handshaker = wsFactory.newHandshaker(request);
 		if (null == handshaker) {
-			WebSocketServerHandshakerFactory
-					.sendUnsupportedWebSocketVersionResponse(ctx.channel());
+			WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx
+					.channel());
 		} else {
 			handshaker.handshake(ctx.channel(), request);
 

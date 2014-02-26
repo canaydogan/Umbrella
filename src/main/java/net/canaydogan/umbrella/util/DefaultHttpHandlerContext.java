@@ -49,5 +49,11 @@ public class DefaultHttpHandlerContext implements HttpHandlerContext {
 	public boolean hasException() {
 		return !(null == exception);
 	}
+
+	@Override
+	public boolean release() {
+		getRequest().release();
+		return false;
+	}
 	
 }

@@ -47,7 +47,6 @@ public class HttpResponseBuilderTest {
 		
 		assertEquals("value", foundation.headers().get("name"));
 		assertEquals(1, foundation.headers().getAll(HttpHeaders.Names.SET_COOKIE).size());
-		assertEquals(7, foundation.content().readableBytes());
 	}
 	
 	@Test

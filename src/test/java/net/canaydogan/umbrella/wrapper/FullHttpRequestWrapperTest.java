@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.net.SocketAddress;
+
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -29,7 +32,7 @@ public class FullHttpRequestWrapperTest {
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);		
 		when(nettyRequest.headers()).thenReturn(httpHeaders);
 		
-		request = new FullHttpRequestWrapper(nettyRequest);		
+		request = new FullHttpRequestWrapper(nettyRequest, mock(SocketAddress.class));		
 	}
 	
 	@Test
@@ -86,7 +89,7 @@ public class FullHttpRequestWrapperTest {
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);
 		when(nettyRequest.headers()).thenReturn(httpHeaders);
 		when(httpHeaders.get("name")).thenReturn("value");
-		HttpRequest request = new FullHttpRequestWrapper(nettyRequest);
+		HttpRequest request = new FullHttpRequestWrapper(nettyRequest, mock(SocketAddress.class));
 		
 		assertEquals("value", request.getHeaderCollection().get("name"));
 	}
@@ -101,7 +104,7 @@ public class FullHttpRequestWrapperTest {
 		HttpHeaders httpHeaders = mock(HttpHeaders.class);
 		when(httpHeaders.get(HttpHeaders.Names.COOKIE)).thenReturn("cookie1=value1");		
 		when(nettyRequest.headers()).thenReturn(httpHeaders);		
-		HttpRequest request = new FullHttpRequestWrapper(nettyRequest);
+		HttpRequest request = new FullHttpRequestWrapper(nettyRequest, mock(SocketAddress.class));
 		
 		assertEquals("value1", request.getCookieCollection().get("cookie1").getValue());
 	}

@@ -14,7 +14,7 @@ class Main {
 		server.setHttpHandler(new HttpHandler() {			
 			@Override
 			public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
-				context.getResponse().setContent("Hello world.");
+				context.getResponse().setContent(context.getRequest().getRemoteAddress());				
 				return false;
 			}
 		});

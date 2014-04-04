@@ -1,5 +1,6 @@
 package net.canaydogan.umbrella;
 
+import java.net.SocketAddress;
 import java.util.Map;
 
 import net.canaydogan.umbrella.router.RouteMatch;
@@ -39,6 +40,8 @@ public interface HttpRequest {
 	 */
 	public Map<Object, Object> getData();
 	
-	public boolean release();	
+	public boolean release();
+	
+	public SocketAddress getRemoteAddress();
 		
 }

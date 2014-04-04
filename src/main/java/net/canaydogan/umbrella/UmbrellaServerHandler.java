@@ -102,7 +102,7 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 
 	protected void handleHttpRequest(ChannelHandlerContext ctx,
 			FullHttpRequest request) throws Exception {
-		context = buildHttpHandlerContext(request);
+		context = buildHttpHandlerContext(request, ctx);
 
 		try {
 			httpHandler.handleHttpRequest(context);
@@ -182,9 +182,9 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	private static HttpHandlerContext buildHttpHandlerContext(
-			FullHttpRequest nettyRequest) {
+			FullHttpRequest nettyRequest, ChannelHandlerContext context) {
 		return new DefaultHttpHandlerContext(new FullHttpRequestWrapper(
-				nettyRequest), new DefaultHttpResponse());
+				nettyRequest, context.channel().remoteAddress()), new DefaultHttpResponse());
 	}
 
 	private static byte[] toByte(ByteBuf buf) {

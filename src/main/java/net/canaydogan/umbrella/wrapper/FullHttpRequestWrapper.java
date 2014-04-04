@@ -6,6 +6,7 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.util.CharsetUtil;
 
+import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,8 +41,11 @@ public class FullHttpRequestWrapper implements HttpRequest {
 	
 	protected boolean initializedContent = false;
 	
-	public FullHttpRequestWrapper(FullHttpRequest request) {
+	protected final SocketAddress remoteAddress;
+	
+	public FullHttpRequestWrapper(FullHttpRequest request, SocketAddress remoteAddress) {
 		this.request = request;
+		this.remoteAddress = remoteAddress;
 		headerCollection = new HttpHeadersWrapper(request.headers());
 		query = new QueryStringDecoderWrapper(new QueryStringDecoder(getUri()));
 		cookieCollection = new DefaultHttpCookieCollection(getHeaderCollection().get(HttpHeaders.Names.COOKIE));
@@ -141,6 +145,11 @@ public class FullHttpRequestWrapper implements HttpRequest {
 		request.release();
 		request = null;
 		return false;
+	}
+
+	@Override
+	public SocketAddress getRemoteAddress() {
+		return remoteAddress;
 	}
 	
 }

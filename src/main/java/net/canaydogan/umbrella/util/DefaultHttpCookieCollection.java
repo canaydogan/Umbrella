@@ -53,7 +53,7 @@ public class DefaultHttpCookieCollection implements HttpCookieCollection {
 	protected List<HttpCookie> toHttpCookie(String cookie) {
 		List<HttpCookie> list = new ArrayList<>();
 		
-		if (null == cookie || cookie.equals("")) {
+		if (null == cookie || "".equals(cookie)) {
 			return list;
 		}
 		
@@ -82,6 +82,15 @@ public class DefaultHttpCookieCollection implements HttpCookieCollection {
 		}
 		
 		return nettyCookieSet;
+	}
+
+	@Override
+	public boolean contains(String name) {
+		if (null == get(name)) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

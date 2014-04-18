@@ -14,11 +14,14 @@ public class WebSocketHandshakerHandler implements HttpHandler {
 	
 	@Override
 	public boolean handleHttpRequest(HttpHandlerContext context)
-			throws Exception {
+			throws Exception {		
+		if (context.hasException()) {
+			return false;
+		}
 		
 		context.getResponse().setContent(handler);
 		
-		return false;
+		return true;
 	}
 
 }

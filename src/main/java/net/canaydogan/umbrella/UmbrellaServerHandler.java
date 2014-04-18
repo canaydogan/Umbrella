@@ -174,13 +174,6 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 				((TextWebSocketFrame) frame).text());
 	}
 
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-			throws Exception {
-		cause.printStackTrace();
-		ctx.close();
-	}
-
 	private static HttpHandlerContext buildHttpHandlerContext(
 			FullHttpRequest nettyRequest, ChannelHandlerContext context) {
 		return new DefaultHttpHandlerContext(new FullHttpRequestWrapper(
@@ -196,6 +189,13 @@ class UmbrellaServerHandler extends ChannelInboundHandlerAdapter {
 	private static String getWebSocketLocation(HttpHandlerContext context) {
 		return "ws://" + context.getRequest().getHeaderCollection().get(HOST)
 				+ context.getRequest().getUri();
+	}
+	
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+			throws Exception {
+		// cause.printStackTrace();
+		ctx.close();
 	}
 
 }

@@ -28,7 +28,7 @@ public class WebSocketHandshakerHandlerTest {
 	
 	@Test
 	public void testHandleHttpRequest() throws Exception {
-		assertFalse(handler.handleHttpRequest(context));
+		assertTrue(handler.handleHttpRequest(context));
 		verify(context.getResponse(), times(1)).setContent(webSocketHandler);
 	}
 		

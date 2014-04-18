@@ -88,6 +88,10 @@ public class StaticFileHandler implements HttpHandler {
 	@Override
 	public boolean handleHttpRequest(HttpHandlerContext context) throws Exception {
 		
+		if (context.hasException()) {
+			return false;
+		}
+		
 		if (context.getRequest().getMethod() != HttpRequest.Method.GET) {
 			throw new MethodNotAllowedException();
 		}

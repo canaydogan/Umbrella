@@ -34,12 +34,14 @@ public class RouteMatch {
 		return params.containsKey(name);
 	}
 	
-	public Integer getInt(String name) {
-		try {
-			return Integer.parseInt(get(name));
-		} catch (Exception e) {
-			return null;
-		}
+	public Integer getInt(String name) {		
+		if (contains(name)) {
+			try {
+				return Integer.parseInt(get(name));
+			} catch (Exception e) {}	
+		}		
+		
+		return null;
 	}
 	
 }

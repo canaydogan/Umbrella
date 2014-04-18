@@ -20,6 +20,11 @@ public class LiteralRouteTest extends AbstractRoute {
 				"/notmatchedvalues",
 				false
 			},
+			{
+				"/url",
+				null,
+				false
+			},
 	};
 	
 	@Test
@@ -48,6 +53,5 @@ public class LiteralRouteTest extends AbstractRoute {
 		}
 		
 	}
-	
-	
+		
 }

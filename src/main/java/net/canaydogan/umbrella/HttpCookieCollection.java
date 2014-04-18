@@ -13,4 +13,6 @@ public interface HttpCookieCollection {
 	
 	public List<String> toStringList();
 	
+	public boolean contains(String name);
+	
 }
